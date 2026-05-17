@@ -1,1 +1,4 @@
 /data
+.venv-anywcsp
+/models
+__pycache__/

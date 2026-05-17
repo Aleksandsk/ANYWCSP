@@ -1,0 +1,22 @@
+cd ~/ANYWCSP
+
+python3.9 -m venv .venv-anywcsp
+source .venv-anywcsp/bin/activate
+
+python --version
+which python
+
+python -m pip install --upgrade pip
+
+pip install "torch==2.0.0+cu117" \
+            "torchvision==0.15.1+cu117" \
+            "torchaudio==2.0.1" \
+            -f https://download.pytorch.org/whl/torch_stable.html
+
+pip install -r requirements.txt -f https://data.pyg.org/whl/torch-2.0.0+cu117.html
+
+pip install "numpy<2" --force-reinstall
+
+
+python evaluate.py --data_path 'data/test/MAXSAT/3CNF/41_10000v_75000c.cnf' --model_dir models/MAXSAT --num_boost 1 --timeout 1200 --verbose
+python evaluate.py --data_path 'data/test/MAXSAT/3CNF/41_10000v_75000c.cnf' --model_dir models/MAXSAT --num_boost 1 --timeout 120 --verbose
