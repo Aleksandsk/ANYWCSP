@@ -12,6 +12,7 @@ class Constraint_Data_Base:
         self.LE = None
         self.num_cst = cst_edges[0].max().numpy() + 1
         self.num_edges = cst_edges.shape[1]
+        self.edge_cost = torch.zeros((self.num_edges, 1), dtype=torch.float32)
 
         self.cst_deg = degree(cst_edges[0], dtype=torch.int64)
         self.cst_arity = degree(cst_var_edges[0], dtype=torch.int64)
@@ -30,6 +31,7 @@ class Constraint_Data_Base:
         self.cst_deg = self.cst_deg.to(device)
         self.cst_arity = self.cst_arity.to(device)
         self.val_deg = self.val_deg.to(device)
+        self.edge_cost = self.edge_cost.to(device)
 
     def update_LE_(self, **kwargs):
         raise NotImplementedError
@@ -275,6 +277,169 @@ class Constraint_Data_All_Diff(Constraint_Data_Base):
             self.update_LE_(assignment, value_count)
 
         return cst_sat.view(-1, assignment.shape[1]).float()
+
+
+class Constraint_Data_TSP_Edge(Constraint_Data_Base):
+
+    def __init__(
+            self,
+            csp_data,
+            src_var_idx,
+            dst_var_idx,
+            pair_exists,
+            pair_cost,
+            cst_edges=None,
+            cst_var_edges=None,
+            edge_side=None,
+            edge_city=None,
+            batch=None
+    ):
+        self.src_var_idx = src_var_idx.long()
+        self.dst_var_idx = dst_var_idx.long()
+        self.pair_exists = pair_exists.bool()
+        self.pair_cost = pair_cost.float()
+
+        num_cst = self.src_var_idx.shape[0]
+        if self.pair_exists.dim() == 2:
+            self.pair_exists = self.pair_exists.unsqueeze(0).repeat(num_cst, 1, 1)
+        if self.pair_cost.dim() == 2:
+            self.pair_cost = self.pair_cost.unsqueeze(0).repeat(num_cst, 1, 1)
+
+        if cst_var_edges is None:
+            cst_idx = torch.arange(num_cst, dtype=torch.int64)
+            cst_var_edges = torch.stack([
+                torch.repeat_interleave(cst_idx, 2),
+                torch.stack([self.src_var_idx, self.dst_var_idx], dim=1).flatten()
+            ], dim=0)
+
+        if cst_edges is None:
+            cst_var_dom_size = csp_data.domain_size[cst_var_edges[1]]
+            cst_edges = torch.repeat_interleave(cst_var_edges, cst_var_dom_size, dim=1)
+            cst_edges[1] = csp_data.var_off[cst_edges[1]]
+
+            cst_val_off = torch.zeros_like(cst_var_dom_size)
+            cst_val_off[1:] += torch.cumsum(cst_var_dom_size[:-1], dim=0)
+            cst_val_shift = torch.arange(cst_edges.shape[1])
+            cst_val_shift -= torch.repeat_interleave(cst_val_off, cst_var_dom_size, dim=0)
+            cst_edges[1] += cst_val_shift
+
+        if edge_side is None:
+            cst_var_dom_size = csp_data.domain_size[cst_var_edges[1]]
+            cst_var_side = torch.arange(cst_var_edges.shape[1], dtype=torch.int64) % 2
+            edge_side = torch.repeat_interleave(cst_var_side, cst_var_dom_size)
+        if edge_city is None:
+            edge_city = csp_data.dom_idx[cst_edges[1]]
+
+        super(Constraint_Data_TSP_Edge, self).__init__(
+            csp_data=csp_data,
+            cst_edges=cst_edges,
+            cst_var_edges=cst_var_edges,
+            batch=batch,
+        )
+
+        self.edge_side = edge_side.long()
+        self.edge_city = edge_city.long()
+        self.val_var_idx = csp_data.var_idx
+        self.var_off = csp_data.var_off
+
+    def to(self, device):
+        super(Constraint_Data_TSP_Edge, self).to(device)
+        self.src_var_idx = self.src_var_idx.to(device)
+        self.dst_var_idx = self.dst_var_idx.to(device)
+        self.pair_exists = self.pair_exists.to(device)
+        self.pair_cost = self.pair_cost.to(device)
+        self.edge_side = self.edge_side.to(device)
+        self.edge_city = self.edge_city.to(device)
+        self.val_var_idx = self.val_var_idx.to(device)
+        self.var_off = self.var_off.to(device)
+
+    @staticmethod
+    def _pad_square(matrix, size):
+        if matrix.shape[1] == size and matrix.shape[2] == size:
+            return matrix
+        padded = torch.zeros(
+            (matrix.shape[0], size, size),
+            dtype=matrix.dtype,
+            device=matrix.device
+        )
+        padded[:, :matrix.shape[1], :matrix.shape[2]] = matrix
+        return padded
+
+    @staticmethod
+    def collate(batch_list, merged_csp_data):
+        src_var_idx, dst_var_idx, pair_exists, pair_cost, batch_idx = [], [], [], [], []
+        cst_val_edges, cst_var_edges, edge_side, edge_city = [], [], [], []
+        cst_off = 0
+        for cst_data, var_off, val_off, i in batch_list:
+            src_var_idx.append(cst_data.src_var_idx + var_off)
+            dst_var_idx.append(cst_data.dst_var_idx + var_off)
+            pair_exists.append(Constraint_Data_TSP_Edge._pad_square(cst_data.pair_exists, merged_csp_data.max_dom))
+            pair_cost.append(Constraint_Data_TSP_Edge._pad_square(cst_data.pair_cost, merged_csp_data.max_dom))
+
+            cur_cst_val_edges = cst_data.cst_edges.clone()
+            cur_cst_val_edges[0] += cst_off
+            cur_cst_val_edges[1] += val_off
+            cst_val_edges.append(cur_cst_val_edges)
+
+            cur_cst_var_edges = cst_data.cst_var_edges.clone()
+            cur_cst_var_edges[0] += cst_off
+            cur_cst_var_edges[1] += var_off
+            cst_var_edges.append(cur_cst_var_edges)
+
+            edge_side.append(cst_data.edge_side)
+            edge_city.append(cst_data.edge_city)
+            batch_idx.append(cst_data.batch + i)
+
+            cst_off += cst_data.num_cst
+
+        batch_cst_data = Constraint_Data_TSP_Edge(
+            csp_data=merged_csp_data,
+            src_var_idx=torch.cat(src_var_idx, dim=0),
+            dst_var_idx=torch.cat(dst_var_idx, dim=0),
+            pair_exists=torch.cat(pair_exists, dim=0),
+            pair_cost=torch.cat(pair_cost, dim=0),
+            batch=torch.cat(batch_idx, dim=0),
+            cst_edges=torch.cat(cst_val_edges, dim=1),
+            cst_var_edges=torch.cat(cst_var_edges, dim=1),
+            edge_side=torch.cat(edge_side, dim=0),
+            edge_city=torch.cat(edge_city, dim=0),
+        )
+        return batch_cst_data
+
+    def _value_idx(self, assignment):
+        value_idx = scatter_max(assignment, self.val_var_idx, dim=0)[1]
+        value_idx = value_idx - self.var_off.view(-1, 1)
+        return value_idx.long()
+
+    def update_LE_(self, assignment, value_idx=None, **kwargs):
+        if value_idx is None:
+            value_idx = self._value_idx(assignment)
+
+        src_city = value_idx[self.src_var_idx]
+        dst_city = value_idx[self.dst_var_idx]
+
+        edge_cst = self.cst_edges[0].long().view(-1, 1)
+        cand_city = self.edge_city.view(-1, 1)
+        is_src_side = (self.edge_side == 0).view(-1, 1)
+
+        other_city = torch.where(is_src_side, dst_city[edge_cst.flatten()], src_city[edge_cst.flatten()])
+        from_city = torch.where(is_src_side, cand_city.expand_as(other_city), other_city)
+        to_city = torch.where(is_src_side, other_city, cand_city.expand_as(other_city))
+
+        self.LE = self.pair_exists[edge_cst, from_city, to_city].long()
+        self.edge_cost = self.pair_cost[edge_cst, from_city, to_city].float()
+
+    def is_sat(self, assignment, update_val_comp=False):
+        value_idx = self._value_idx(assignment)
+        src_city = value_idx[self.src_var_idx]
+        dst_city = value_idx[self.dst_var_idx]
+        cst_idx = torch.arange(self.num_cst, device=assignment.device).view(-1, 1)
+
+        cst_sat = self.pair_exists[cst_idx, src_city, dst_city]
+        if update_val_comp:
+            self.update_LE_(assignment, value_idx=value_idx)
+
+        return cst_sat.float()
 
 
 class Constraint_Data_Linear(Constraint_Data_Base):

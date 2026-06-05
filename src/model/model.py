@@ -2,7 +2,7 @@ import os
 from timeit import default_timer as timer
 import torch
 from torch.nn import Module, GRUCell
-from torch_scatter import scatter_sum
+from torch_scatter import scatter_min, scatter_sum
 
 from src.model.layers import Val2Val_Layer, Cst2Val_Layer, Val2Cst_Layer, Policy
 from src.utils.config_utils import read_config, write_config
@@ -16,6 +16,10 @@ class ANYCSP(Module):
         self.config = config
         self.hidden_dim = config['hidden_dim']
         self.sampling = config['sampling']
+        self.config.setdefault('fix_first_var', True)
+        self.config.setdefault('weight_all_diff_reward', True)
+        self.fix_first_var = self.config['fix_first_var']
+        self.weight_all_diff_reward = self.config['weight_all_diff_reward']
 
         # GRU cell and its initial state
         self.h_val_init = torch.nn.Parameter(torch.normal(0.0, 1.0, (1, self.hidden_dim), dtype=torch.float32))
@@ -53,21 +57,47 @@ class ANYCSP(Module):
         model.global_step = state_dict['global_step']
         return model
 
-    def init_assignment(self, data):
+    def init_fixed_first_var(self, data):
+        if not self.fix_first_var:
+            return None, None
+
+        var_idx = torch.arange(data.num_var, device=data.device)
+        fixed_var_idx = scatter_min(var_idx, data.batch, dim=0, dim_size=data.batch_size)[0]
+        fixed_dom_idx = torch.floor(
+            torch.rand((data.batch_size,), device=data.device) * data.domain_size[fixed_var_idx].float()
+        ).long()
+        fixed_val_idx = data.var_off[fixed_var_idx] + fixed_dom_idx
+
+        data.fixed_var_idx = fixed_var_idx
+        data.fixed_val_idx = fixed_val_idx
+        data.fixed_dom_idx = fixed_dom_idx
+        return fixed_var_idx, fixed_val_idx
+
+    def init_assignment(self, data, fixed_var_idx=None, fixed_val_idx=None):
         logits = torch.ones((data.num_val,), device=data.device, dtype=torch.float32)
-        assignment, _ = data.hard_assign_sample(logits)
+        assignment, _ = data.hard_assign_sample(logits, fixed_var_idx=fixed_var_idx, fixed_val_idx=fixed_val_idx)
         cst_sat = data.constraint_is_sat(assignment, update_LE=True)
-        num_unsat = scatter_sum(1.0 - cst_sat, data.cst_batch, dim=0, dim_size=data.batch_size)
+        num_unsat = self.count_unsat(data, cst_sat)
         return assignment, num_unsat
 
-    def update_assignment(self, data, logits, assignment):
+    def update_assignment(self, data, logits, assignment, fixed_var_idx=None, fixed_val_idx=None):
         if self.sampling == 'local':
-            assignment, log_prob = data.hard_assign_sample_local(logits, assignment)
+            assignment, log_prob = data.hard_assign_sample_local(logits, assignment, fixed_var_idx=fixed_var_idx)
         else:
-            assignment, log_prob = data.hard_assign_sample(logits)
+            assignment, log_prob = data.hard_assign_sample(
+                logits,
+                fixed_var_idx=fixed_var_idx,
+                fixed_val_idx=fixed_val_idx
+            )
         cst_sat = data.constraint_is_sat(assignment, update_LE=True)
-        num_unsat = scatter_sum(1.0 - cst_sat, data.cst_batch, dim=0, dim_size=data.batch_size)
+        num_unsat = self.count_unsat(data, cst_sat)
         return assignment, num_unsat, log_prob
+
+    def count_unsat(self, data, cst_sat):
+        unsat = 1.0 - cst_sat
+        if data.cst_weight is not None:
+            unsat = unsat * data.cst_weight.view(-1, 1)
+        return scatter_sum(unsat, data.cst_batch, dim=0, dim_size=data.batch_size)
 
     def forward(
             self,
@@ -82,9 +112,11 @@ class ANYCSP(Module):
             timeout=None
     ):
         data.init_adj()
+        data.init_constraint_weights(weight_all_diff=self.weight_all_diff_reward)
 
         # initialize first assignment and states
-        assignment, num_unsat = self.init_assignment(data)
+        fixed_var_idx, fixed_val_idx = self.init_fixed_first_var(data)
+        assignment, num_unsat = self.init_assignment(data, fixed_var_idx, fixed_val_idx)
         h_val = self.h_val_init.tile(data.num_val, 1)
 
         data.best_num_unsat = num_unsat.min(dim=1)[0]
@@ -116,7 +148,13 @@ class ANYCSP(Module):
             logits = self.policy(h_val)
 
             # sample next assignment
-            assignment, num_unsat, log_prob = self.update_assignment(data, logits, assignment)
+            assignment, num_unsat, log_prob = self.update_assignment(
+                data,
+                logits,
+                assignment,
+                fixed_var_idx,
+                fixed_val_idx
+            )
             data.num_steps = s + 1
 
             # update all kinds of metrics...

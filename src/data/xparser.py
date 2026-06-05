@@ -803,6 +803,110 @@ class XParser(object):
     Functions for Interaction
     ---------------------------------------------------------------------------
     """   
+
+    def _find_array(self, array_id):
+        for array in self.tree.getroot().findall('variables/array'):
+            if array.attrib.get('id') == array_id:
+                return array
+        return None
+
+    @staticmethod
+    def _array_size(array):
+        dimensions = array.attrib['size'].replace("]", "").split("[")
+        return [int(x) for x in dimensions[1:]]
+
+    def _is_tsp_instance(self):
+        root = self.tree.getroot()
+        c_array = self._find_array('c')
+        d_array = self._find_array('d')
+        if c_array is None or d_array is None:
+            return False
+
+        c_size = XParser._array_size(c_array)
+        d_size = XParser._array_size(d_array)
+        if len(c_size) != 1 or len(d_size) != 1 or c_size[0] != d_size[0]:
+            return False
+
+        num_cities = c_size[0]
+        city_domain = XParser.extract_num_dom(c_array.text.lstrip().rstrip())
+        if sorted(city_domain.keys()) != list(range(num_cities)):
+            return False
+
+        objective = root.find('objectives/minimize')
+        if objective is None or objective.attrib.get('type') != 'sum':
+            return False
+        if objective.text is None or objective.text.lstrip().rstrip() != 'd[]':
+            return False
+
+        group = root.find('constraints/group')
+        if group is None or group.find('extension') is None:
+            return False
+
+        extension = group.find('extension')
+        ext_list = extension.find('list')
+        supports = extension.find('supports')
+        if ext_list is None or supports is None:
+            return False
+        if ext_list.text is None or ext_list.text.lstrip().rstrip() != '%0 %1 %2':
+            return False
+
+        try:
+            support_tuples = XParser.to_tuple_list(supports.text)
+        except Exception:
+            return False
+        return support_tuples != [] and all(len(tup) == 3 for tup in support_tuples)
+
+    @staticmethod
+    def _tsp_city_index(var_name):
+        match = re.fullmatch(r"c\[(\d+)\]", var_name)
+        if match is None:
+            raise Exception("expected TSP city variable, found: " + var_name)
+        return int(match.group(1))
+
+    def _parse_tsp_transitions(self, group, num_cities):
+        transitions = []
+        self.array_dimensions['c'] = [num_cities]
+        self.array_dimensions['d'] = [num_cities]
+        for arg in group.findall('args'):
+            expanded = self.expand_notation(arg.text)
+            city_vars = [var for var in expanded if var.startswith('c[')]
+            if len(city_vars) != 2:
+                raise Exception("expected each TSP transition to contain two city variables")
+            transitions.append((
+                XParser._tsp_city_index(city_vars[0]),
+                XParser._tsp_city_index(city_vars[1])
+            ))
+
+        if transitions == []:
+            transitions = [(i, (i + 1) % num_cities) for i in range(num_cities)]
+        return transitions
+
+    def _to_tsp_CSP_data(self):
+        root = self.tree.getroot()
+        c_array = self._find_array('c')
+        num_cities = XParser._array_size(c_array)[0]
+
+        group = root.find('constraints/group')
+        supports = group.find('extension').find('supports')
+        support_tuples = XParser.to_tuple_list(supports.text)
+
+        pair_exists = torch.zeros((num_cities, num_cities), dtype=torch.bool)
+        pair_cost = torch.zeros((num_cities, num_cities), dtype=torch.float32)
+        for city_from, city_to, cost in support_tuples:
+            if 0 <= city_from < num_cities and 0 <= city_to < num_cities:
+                pair_exists[city_from, city_to] = True
+                pair_cost[city_from, city_to] = float(cost)
+
+        transitions = self._parse_tsp_transitions(group, num_cities)
+        src_var_idx = torch.LongTensor([src for src, _ in transitions])
+        dst_var_idx = torch.LongTensor([dst for _, dst in transitions])
+
+        domain_size = torch.full((num_cities,), num_cities, dtype=torch.int64)
+        domain = torch.arange(num_cities, dtype=torch.int64).repeat(num_cities)
+        csp = csp_data.CSP_Data(num_cities, domain_size, domain, path=self.path)
+        csp.add_all_different_constraint_data(torch.arange(num_cities, dtype=torch.int64).view(1, -1))
+        csp.add_tsp_edge_constraint_data(src_var_idx, dst_var_idx, pair_exists, pair_cost)
+        return csp
     
     def to_CSP_data(self, implicid_data = True, subsampl = True, checkDomains = False, max_tuples_per_eq = 32):
         """
@@ -825,6 +929,8 @@ class XParser(object):
         csp : 
             csp_data object containing all data
         """
+        if self._is_tsp_instance():
+            return self._to_tsp_CSP_data()
         self.get_var_domain()
         self.get_constraints(self.tree.getroot().find('constraints'))
         domain_size = torch.LongTensor([len(dom) for dom in self.domain])

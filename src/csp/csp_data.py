@@ -3,7 +3,7 @@ import torch
 from torch_geometric.utils import degree
 from torch_scatter import scatter_softmax, scatter_sum, scatter_max
 
-from src.csp.constraints import Constraint_Data, Constraint_Data_All_Diff, Constraint_Data_Linear
+from src.csp.constraints import Constraint_Data, Constraint_Data_All_Diff, Constraint_Data_Linear, Constraint_Data_TSP_Edge
 
 
 # Class for representing CSP instances for torch
@@ -59,6 +59,8 @@ class CSP_Data:
         self.cst_batch = None
         self.cst_edges = None
         self.LE = None
+        self.edge_cost = None
+        self.cst_weight = None
 
         self.initialized = False
         self.device = 'cpu'
@@ -75,6 +77,12 @@ class CSP_Data:
         self.batch_val_off = self.batch_val_off.to(device)
         self.batch_val_idx = self.batch_val_idx.to(device)
         self.batch_num_val = self.batch_num_val.to(device)
+        if self.LE is not None:
+            self.LE = self.LE.to(device)
+        if self.edge_cost is not None:
+            self.edge_cost = self.edge_cost.to(device)
+        if self.cst_weight is not None:
+            self.cst_weight = self.cst_weight.to(device)
         for cst_data in self.constraints.values():
             cst_data.to(device)
 
@@ -110,6 +118,7 @@ class CSP_Data:
     def init_adj(self):
         cst_edges, cst_batch = [], []
         cst_off = 0
+        self.num_edges = 0
         for cst_data in self.constraints.values():
             cur_edges = cst_data.cst_edges.clone()
             cur_edges[0] += cst_off
@@ -123,8 +132,25 @@ class CSP_Data:
         self.cst_batch = torch.cat(cst_batch, dim=0)
         self.batch_num_cst = degree(self.cst_batch, num_nodes=self.batch_size, dtype=torch.int64)
 
+    def init_constraint_weights(self, weight_all_diff=False):
+        cst_weight = []
+        for name, cst_data in self.constraints.items():
+            cur_weight = torch.ones((cst_data.num_cst,), dtype=torch.float32, device=self.device)
+            if weight_all_diff and name.startswith('all_diff'):
+                cur_weight = 2.0 * cst_data.cst_arity.float()
+            cst_weight.append(cur_weight)
+
+        self.cst_weight = torch.cat(cst_weight, dim=0)
+        self.batch_num_cst = scatter_sum(
+            self.cst_weight,
+            self.cst_batch,
+            dim=0,
+            dim_size=self.batch_size
+        )
+
     def update_LE(self):
         self.LE = torch.cat([cst_data.LE for cst_data in self.constraints.values()], dim=0).flatten().long()
+        self.edge_cost = torch.cat([cst_data.edge_cost for cst_data in self.constraints.values()], dim=0).float()
 
     def add_constraint_data_(self, cst_data, name):
         self.num_cst += cst_data.num_cst
@@ -193,6 +219,16 @@ class CSP_Data:
         )
         self.add_constraint_data_(cst_data, f'all_diff')
 
+    def add_tsp_edge_constraint_data(self, src_var_idx, dst_var_idx, pair_exists, pair_cost):
+        cst_data = Constraint_Data_TSP_Edge(
+            csp_data=self,
+            src_var_idx=src_var_idx,
+            dst_var_idx=dst_var_idx,
+            pair_exists=pair_exists,
+            pair_cost=pair_cost
+        )
+        self.add_constraint_data_(cst_data, 'tsp_edge')
+
     def add_linear_constraint_data(self, var_idx, coeffs, b, comp):
         cst_idx = torch.arange(var_idx.shape[0])
         cst_idx = torch.repeat_interleave(cst_idx, var_idx.shape[1])
@@ -232,11 +268,16 @@ class CSP_Data:
         value_idx -= self.var_off.view(-1, 1)
         return value_idx
 
-    def hard_assign_sample(self, logits):
+    def hard_assign_sample(self, logits, fixed_var_idx=None, fixed_val_idx=None):
         value_prob = self.value_softmax(logits).view(self.num_val, 1)
         with torch.no_grad():
             dense_probs = torch.zeros((self.num_var, self.max_dom), dtype=torch.float32, device=self.device)
             dense_probs[self.var_idx, self.dom_idx] = value_prob.view(-1)
+
+            if fixed_var_idx is not None and fixed_val_idx is not None:
+                fixed_dom_idx = fixed_val_idx - self.var_off[fixed_var_idx]
+                dense_probs[fixed_var_idx] = 0.0
+                dense_probs[fixed_var_idx, fixed_dom_idx] = 1.0
 
             idx = torch.multinomial(dense_probs, 1)
             idx += self.var_off.view(-1, 1)
@@ -245,16 +286,25 @@ class CSP_Data:
             assignment[idx.view(-1)] = 1.0
 
         sampled_prob = value_prob[idx]
+        if fixed_var_idx is not None:
+            sampled_prob[fixed_var_idx] = 1.0
         log_prob = scatter_sum(torch.log(sampled_prob + 1.0e-5), self.batch, dim=0).view(-1, 1)
         return assignment, log_prob
 
-    def hard_assign_sample_local(self, logits, assignment):
+    def hard_assign_sample_local(self, logits, assignment, fixed_var_idx=None):
         value_prob = self.value_softmax_local(logits, assignment).view(self.num_val, 1)
         with torch.no_grad():
             value_assignment = self.dom_idx[assignment.bool().flatten()]
 
             dense_probs = torch.zeros((self.batch_size, self.max_num_val), dtype=torch.float32, device=self.device)
             dense_probs[self.batch[self.var_idx], self.batch_val_idx] = value_prob.view(-1)
+
+            if fixed_var_idx is not None:
+                for var_idx in fixed_var_idx:
+                    val_start = self.var_off[var_idx]
+                    val_stop = val_start + self.domain_size[var_idx]
+                    batch_idx = self.batch[var_idx]
+                    dense_probs[batch_idx, self.batch_val_idx[val_start:val_stop]] = 0.0
 
             idx = torch.multinomial(dense_probs, 1).flatten()
             idx += self.batch_val_off
@@ -275,10 +325,14 @@ class CSP_Data:
 
     def count_unsat(self, assignment_one_hot):
         unsat = 1.0 - self.constraint_is_sat(assignment_one_hot).float()
+        if self.cst_weight is not None:
+            unsat = unsat * self.cst_weight.view(-1, 1)
         num_unsat = scatter_sum(unsat, self.cst_batch, dim=0, dim_size=self.batch_size)
         return num_unsat
 
     def count_sat(self, assignment_one_hot):
         sat = self.constraint_is_sat(assignment_one_hot).float()
+        if self.cst_weight is not None:
+            sat = sat * self.cst_weight.view(-1, 1)
         sat = scatter_sum(sat, self.cst_batch, dim=0, dim_size=self.batch_size)
         return sat
