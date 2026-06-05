@@ -18,8 +18,10 @@ class ANYCSP(Module):
         self.sampling = config['sampling']
         self.config.setdefault('fix_first_var', True)
         self.config.setdefault('weight_all_diff_reward', True)
+        self.config.setdefault('initialize_all_diff', False)
         self.fix_first_var = self.config['fix_first_var']
         self.weight_all_diff_reward = self.config['weight_all_diff_reward']
+        self.initialize_all_diff = self.config['initialize_all_diff']
 
         # GRU cell and its initial state
         self.h_val_init = torch.nn.Parameter(torch.normal(0.0, 1.0, (1, self.hidden_dim), dtype=torch.float32))
@@ -63,9 +65,12 @@ class ANYCSP(Module):
 
         var_idx = torch.arange(data.num_var, device=data.device)
         fixed_var_idx = scatter_min(var_idx, data.batch, dim=0, dim_size=data.batch_size)[0]
-        fixed_dom_idx = torch.floor(
-            torch.rand((data.batch_size,), device=data.device) * data.domain_size[fixed_var_idx].float()
-        ).long()
+        if self.initialize_all_diff:
+            fixed_dom_idx = torch.zeros((data.batch_size,), dtype=torch.long, device=data.device)
+        else:
+            fixed_dom_idx = torch.floor(
+                torch.rand((data.batch_size,), device=data.device) * data.domain_size[fixed_var_idx].float()
+            ).long()
         fixed_val_idx = data.var_off[fixed_var_idx] + fixed_dom_idx
 
         data.fixed_var_idx = fixed_var_idx
@@ -73,9 +78,25 @@ class ANYCSP(Module):
         data.fixed_dom_idx = fixed_dom_idx
         return fixed_var_idx, fixed_val_idx
 
+    def init_all_diff_assignment(self, data):
+        var_idx = torch.arange(data.num_var, device=data.device)
+        first_var_idx = scatter_min(var_idx, data.batch, dim=0, dim_size=data.batch_size)[0]
+        local_var_idx = var_idx - first_var_idx[data.batch]
+
+        if torch.any(local_var_idx >= data.domain_size):
+            raise ValueError('initialize_all_diff requires variable i to have value i in its domain.')
+
+        val_idx = data.var_off + local_var_idx.long()
+        assignment = torch.zeros((data.num_val, 1), dtype=torch.float32, device=data.device)
+        assignment[val_idx] = 1.0
+        return assignment
+
     def init_assignment(self, data, fixed_var_idx=None, fixed_val_idx=None):
-        logits = torch.ones((data.num_val,), device=data.device, dtype=torch.float32)
-        assignment, _ = data.hard_assign_sample(logits, fixed_var_idx=fixed_var_idx, fixed_val_idx=fixed_val_idx)
+        if self.initialize_all_diff:
+            assignment = self.init_all_diff_assignment(data)
+        else:
+            logits = torch.ones((data.num_val,), device=data.device, dtype=torch.float32)
+            assignment, _ = data.hard_assign_sample(logits, fixed_var_idx=fixed_var_idx, fixed_val_idx=fixed_val_idx)
         cst_sat = data.constraint_is_sat(assignment, update_LE=True)
         num_unsat = self.count_unsat(data, cst_sat)
         return assignment, num_unsat
