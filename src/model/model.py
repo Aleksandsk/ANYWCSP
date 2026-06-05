@@ -19,9 +19,11 @@ class ANYCSP(Module):
         self.config.setdefault('fix_first_var', True)
         self.config.setdefault('weight_all_diff_reward', True)
         self.config.setdefault('initialize_all_diff', False)
+        self.config.setdefault('use_tsp_objective', False)
         self.fix_first_var = self.config['fix_first_var']
         self.weight_all_diff_reward = self.config['weight_all_diff_reward']
         self.initialize_all_diff = self.config['initialize_all_diff']
+        self.use_tsp_objective = self.config['use_tsp_objective']
 
         # GRU cell and its initial state
         self.h_val_init = torch.nn.Parameter(torch.normal(0.0, 1.0, (1, self.hidden_dim), dtype=torch.float32))
@@ -120,6 +122,47 @@ class ANYCSP(Module):
             unsat = unsat * data.cst_weight.view(-1, 1)
         return scatter_sum(unsat, data.cst_batch, dim=0, dim_size=data.batch_size)
 
+    @staticmethod
+    def gather_metric(metric, idx):
+        return metric.gather(1, idx.view(-1, 1)).view(-1)
+
+    def init_tsp_tracking(self, data, assignment):
+        metrics = data.tsp_objective(assignment)
+        objective, best_idx = metrics['objective'].min(dim=1)
+
+        data.best_objective = objective
+        data.best_tour_cost = self.gather_metric(metrics['tour_cost'], best_idx)
+        data.best_duplicate_penalty = self.gather_metric(metrics['duplicate_penalty'], best_idx)
+        data.best_missing_edge_penalty = self.gather_metric(metrics['missing_edge_penalty'], best_idx)
+        data.tsp_big_m = metrics['big_m'].view(-1)
+
+        data.all_objective = [objective.view(-1, 1)]
+        data.all_tour_cost = [data.best_tour_cost.view(-1, 1)]
+        data.all_duplicate_penalty = [data.best_duplicate_penalty.view(-1, 1)]
+        data.all_missing_edge_penalty = [data.best_missing_edge_penalty.view(-1, 1)]
+        return objective
+
+    def update_tsp_tracking(self, data, assignment, num_unsat):
+        metrics = data.tsp_objective(assignment)
+        objective, best_idx = metrics['objective'].min(dim=1)
+        tour_cost = self.gather_metric(metrics['tour_cost'], best_idx)
+        duplicate_penalty = self.gather_metric(metrics['duplicate_penalty'], best_idx)
+        missing_edge_penalty = self.gather_metric(metrics['missing_edge_penalty'], best_idx)
+        cur_num_unsat = self.gather_metric(num_unsat, best_idx)
+
+        improved = objective < data.best_objective
+        data.best_objective = torch.where(improved, objective, data.best_objective)
+        data.best_tour_cost = torch.where(improved, tour_cost, data.best_tour_cost)
+        data.best_duplicate_penalty = torch.where(improved, duplicate_penalty, data.best_duplicate_penalty)
+        data.best_missing_edge_penalty = torch.where(improved, missing_edge_penalty, data.best_missing_edge_penalty)
+        data.best_num_unsat = torch.where(improved, cur_num_unsat, data.best_num_unsat)
+
+        data.all_objective.append(objective.view(-1, 1))
+        data.all_tour_cost.append(tour_cost.view(-1, 1))
+        data.all_duplicate_penalty.append(duplicate_penalty.view(-1, 1))
+        data.all_missing_edge_penalty.append(missing_edge_penalty.view(-1, 1))
+        return objective
+
     def forward(
             self,
             data,
@@ -142,16 +185,21 @@ class ANYCSP(Module):
 
         data.best_num_unsat = num_unsat.min(dim=1)[0]
         data.num_steps = 0
+        if self.use_tsp_objective:
+            self.init_tsp_tracking(data, assignment)
 
         value_assignment = data.domain[assignment.flatten().bool()]
         assignment_list = [value_assignment.view(-1, 1)]
         num_unsat_list = [data.best_num_unsat.view(-1, 1)]
         log_prob_list = []
 
-        opt = data.best_num_unsat.min()
+        opt = data.best_objective.min() if self.use_tsp_objective else data.best_num_unsat.min()
         data.opt_step = 0
         if verbose:
-            print(f'o {opt.int().cpu().numpy()}')
+            if self.use_tsp_objective:
+                print(f'o {float(opt.detach().cpu()):.2f}')
+            else:
+                print(f'o {opt.int().cpu().numpy()}')
 
         keep_time |= timeout is not None
         if keep_time:
@@ -179,9 +227,14 @@ class ANYCSP(Module):
             data.num_steps = s + 1
 
             # update all kinds of metrics...
-            num_unsat, best_assign = num_unsat.min(dim=1)
-            data.best_num_unsat = torch.minimum(data.best_num_unsat, num_unsat)
-            cur_opt = data.best_num_unsat.min()
+            if self.use_tsp_objective:
+                objective = self.update_tsp_tracking(data, assignment, num_unsat)
+                num_unsat = num_unsat.min(dim=1)[0]
+                cur_opt = data.best_objective.min()
+            else:
+                num_unsat, best_assign = num_unsat.min(dim=1)
+                data.best_num_unsat = torch.minimum(data.best_num_unsat, num_unsat)
+                cur_opt = data.best_num_unsat.min()
 
             if return_log_probs:
                 log_prob_list.append(log_prob.view(-1, 1))
@@ -193,11 +246,14 @@ class ANYCSP(Module):
             if cur_opt < opt:
                 opt = cur_opt
                 if verbose:
-                    print(f'o {opt.int().cpu().numpy()}')
+                    if self.use_tsp_objective:
+                        print(f'o {float(opt.detach().cpu()):.2f}')
+                    else:
+                        print(f'o {opt.int().cpu().numpy()}')
                 if keep_time:
                     data.opt_time = float(time)
                     data.opt_step = s + 1
-            if stop_early and num_unsat.min() == 0.0:
+            if stop_early and not self.use_tsp_objective and num_unsat.min() == 0.0:
                 break
             if return_all_assignments:
                 value_assignment = data.domain[assignment.flatten().bool()]
@@ -211,6 +267,11 @@ class ANYCSP(Module):
             data.all_assignments = torch.cat(assignment_list, dim=1)
         if return_all_unsat:
             data.all_num_unsat = torch.cat(num_unsat_list, dim=1)
+        if self.use_tsp_objective:
+            data.all_objective = torch.cat(data.all_objective, dim=1)
+            data.all_tour_cost = torch.cat(data.all_tour_cost, dim=1)
+            data.all_duplicate_penalty = torch.cat(data.all_duplicate_penalty, dim=1)
+            data.all_missing_edge_penalty = torch.cat(data.all_missing_edge_penalty, dim=1)
         if keep_time:
             data.total_time = time
         return data

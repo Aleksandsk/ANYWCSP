@@ -24,10 +24,26 @@ def reward_quality(data):
         return reward
 
 
+def reward_tsp_objective(data, improve=True):
+    with torch.no_grad():
+        objective = data.all_objective
+        scale = data.tsp_big_m.view(-1, 1) + 1.0e-8
+        reward = (objective[:, 0].view(-1, 1) - objective) / scale
+
+        if improve:
+            max_prior = torch.cummax(reward, dim=1)[0]
+            reward[:, 1:] -= max_prior[:, :-1]
+            reward[reward < 0.0] = 0.0
+            reward[:, 0] = 0.0
+        return reward
+
+
 def reinforce_loss(data, config):
     # get reward in each step t
     assert config['reward'] in {'improve', 'quality'}
-    if config['reward'] == 'improve':
+    if config.get('use_tsp_objective', False):
+        reward = reward_tsp_objective(data, improve=config['reward'] == 'improve')
+    elif config['reward'] == 'improve':
         reward = reward_improve(data)
     else:
         reward = reward_quality(data)

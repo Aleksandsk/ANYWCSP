@@ -104,6 +104,10 @@ def validate():
 
     total_unsat = 0
     total_solved = 0
+    total_objective = 0
+    total_tour_cost = 0
+    total_duplicate = 0
+    total_missing_edge = 0
     total_count = 0
 
     for data in tqdm(val_loader, disable=args.no_bar, desc=f'Validating'):
@@ -121,12 +125,27 @@ def validate():
         best_unsat = data.best_num_unsat.view(-1)
         total_unsat += best_unsat.float().sum().cpu().numpy()
         total_solved += (best_unsat == 0).float().sum().cpu().numpy()
+        if config.get('use_tsp_objective', False):
+            total_objective += data.best_objective.float().sum().cpu().numpy()
+            total_tour_cost += data.best_tour_cost.float().sum().cpu().numpy()
+            total_duplicate += data.best_duplicate_penalty.float().sum().cpu().numpy()
+            total_missing_edge += data.best_missing_edge_penalty.float().sum().cpu().numpy()
         total_count += data.batch_size
 
     unsat = total_unsat / total_count
     solved = total_solved / total_count
     logger.add_scalar('Val/Solved_Ratio', solved, model.global_step)
     logger.add_scalar('Val/Unsat_Count', unsat, model.global_step)
+    if config.get('use_tsp_objective', False):
+        objective = total_objective / total_count
+        tour_cost = total_tour_cost / total_count
+        duplicate = total_duplicate / total_count
+        missing_edge = total_missing_edge / total_count
+        logger.add_scalar('Val/TSP_Objective', objective, model.global_step)
+        logger.add_scalar('Val/TSP_Tour_Cost', tour_cost, model.global_step)
+        logger.add_scalar('Val/TSP_Duplicate_Penalty', duplicate, model.global_step)
+        logger.add_scalar('Val/TSP_Missing_Edge_Penalty', missing_edge, model.global_step)
+        return unsat, solved, objective, tour_cost, duplicate, missing_edge
     return unsat, solved
 
 
@@ -196,12 +215,24 @@ if __name__ == '__main__':
         train_epoch()
 
         if val_loader is not None:
-            unsat, solved = validate()
+            val_metrics = validate()
+            unsat, solved = val_metrics[:2]
 
-            print(f'Mean Unsat Count: {unsat:.2f}, Solved: {100 * solved:.2f}%')
-            if unsat < best_unsat:
+            if config.get('use_tsp_objective', False):
+                objective, tour_cost, duplicate, missing_edge = val_metrics[2:]
+                print(
+                    f'Mean Unsat Count: {unsat:.2f}, Solved: {100 * solved:.2f}%, '
+                    f'Mean TSP Objective: {objective:.2f}, Mean Tour Cost: {tour_cost:.2f}, '
+                    f'Duplicates: {duplicate:.2f}, Missing Edges: {missing_edge:.2f}'
+                )
+                best_metric = objective
+            else:
+                print(f'Mean Unsat Count: {unsat:.2f}, Solved: {100 * solved:.2f}%')
+                best_metric = unsat
+
+            if best_metric < best_unsat:
                 model.save_model(name='best')
-                best_unsat = unsat
+                best_unsat = best_metric
 
         model.save_model(name='last')
         save_opt_states(model.model_dir)

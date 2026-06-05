@@ -152,6 +152,75 @@ class CSP_Data:
         self.LE = torch.cat([cst_data.LE for cst_data in self.constraints.values()], dim=0).flatten().long()
         self.edge_cost = torch.cat([cst_data.edge_cost for cst_data in self.constraints.values()], dim=0).float()
 
+    def tsp_duplicate_penalty(self, assignment):
+        assignment = assignment.view(self.num_val, -1)
+        value_idx = scatter_max(assignment, self.var_idx, dim=0)[1]
+        value_idx = value_idx - self.var_off.view(-1, 1)
+        value_idx = value_idx.long()
+
+        penalties = []
+        for col in range(value_idx.shape[1]):
+            flat_idx = self.batch * self.max_dom + value_idx[:, col]
+            counts = scatter_sum(
+                torch.ones((self.num_var,), dtype=torch.float32, device=self.device),
+                flat_idx,
+                dim=0,
+                dim_size=self.batch_size * self.max_dom
+            )
+            counts = counts.view(self.batch_size, self.max_dom)
+            penalties.append(torch.relu(counts - 1.0).sum(dim=1))
+        return torch.stack(penalties, dim=1)
+
+    def tsp_edge_metrics(self, assignment):
+        assignment = assignment.view(self.num_val, -1)
+        if 'tsp_edge' not in self.constraints:
+            zeros = torch.zeros((self.batch_size, assignment.shape[1]), dtype=torch.float32, device=self.device)
+            return zeros, zeros, torch.ones_like(zeros)
+
+        tsp_data = self.constraints['tsp_edge']
+        value_idx = tsp_data._value_idx(assignment)
+        src_city = value_idx[tsp_data.src_var_idx]
+        dst_city = value_idx[tsp_data.dst_var_idx]
+        cst_idx = torch.arange(tsp_data.num_cst, device=self.device).view(-1, 1)
+
+        edge_exists = tsp_data.pair_exists[cst_idx, src_city, dst_city].float()
+        selected_cost = tsp_data.pair_cost[cst_idx, src_city, dst_city].float()
+
+        missing_edge_penalty = scatter_sum(
+            1.0 - edge_exists,
+            tsp_data.batch,
+            dim=0,
+            dim_size=self.batch_size
+        )
+        tour_cost = scatter_sum(
+            selected_cost,
+            tsp_data.batch,
+            dim=0,
+            dim_size=self.batch_size
+        )
+
+        max_edge_cost = tsp_data.pair_cost.amax(dim=(1, 2))
+        big_m = scatter_sum(
+            max_edge_cost,
+            tsp_data.batch,
+            dim=0,
+            dim_size=self.batch_size
+        ).view(-1, 1)
+        big_m = big_m + 1.0
+        return missing_edge_penalty, tour_cost, big_m
+
+    def tsp_objective(self, assignment):
+        duplicate_penalty = self.tsp_duplicate_penalty(assignment)
+        missing_edge_penalty, tour_cost, big_m = self.tsp_edge_metrics(assignment)
+        objective = big_m * (duplicate_penalty + missing_edge_penalty) + tour_cost
+        return {
+            'objective': objective,
+            'tour_cost': tour_cost,
+            'duplicate_penalty': duplicate_penalty,
+            'missing_edge_penalty': missing_edge_penalty,
+            'big_m': big_m,
+        }
+
     def add_constraint_data_(self, cst_data, name):
         self.num_cst += cst_data.num_cst
         if name not in self.constraints:

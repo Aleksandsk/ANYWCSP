@@ -110,8 +110,7 @@ class Val2Val_Layer(Module):
         
         # Apply U_X and send result back
         z_var = self.var_enc(z_var)
-        y_val += z_var[data.var_idx]
-        return y_val
+        return y_val + z_var[data.var_idx]
 
 
 class Policy(Module):

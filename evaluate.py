@@ -33,6 +33,8 @@ if __name__ == '__main__':
 
     num_solved = 0
     total_time = 0.0
+    total_objective = 0.0
+    total_tour_cost = 0.0
     num_total = len(dataset)
 
     for data in dataset:
@@ -60,18 +62,49 @@ if __name__ == '__main__':
             )
 
         best_per_run = data.best_num_unsat.cpu().detach().numpy()
-        mean_best = best_per_run.mean()
-        best = best_per_run.min()
+        if model.config.get('use_tsp_objective', False):
+            objective_per_run = data.best_objective.cpu().detach().numpy()
+            best_run = int(objective_per_run.argmin())
+            best_objective = float(objective_per_run[best_run])
+            best = float(best_per_run[best_run])
+            best_tour_cost = float(data.best_tour_cost.cpu().detach().numpy()[best_run])
+            best_duplicate = float(data.best_duplicate_penalty.cpu().detach().numpy()[best_run])
+            best_missing_edge = float(data.best_missing_edge_penalty.cpu().detach().numpy()[best_run])
+            total_objective += best_objective
+            total_tour_cost += best_tour_cost
+        else:
+            best = best_per_run.min()
         solved = best == 0
         num_solved += int(solved)
         total_time += data.opt_time
 
-        print(
-            f'{file}: {"Solved" if solved else "Unsolved"}, '
-            f'Num Unsat: {int(best)}, '
-            f'Steps: {data.num_steps}, '
-            f'Opt Time: {data.opt_time:.2f}s, '
-            f'Opt Step: {data.opt_step}'
-        )
+        if model.config.get('use_tsp_objective', False):
+            print(
+                f'{file}: {"Solved" if solved else "Unsolved"}, '
+                f'Num Unsat: {int(best)}, '
+                f'TSP Objective: {best_objective:.2f}, '
+                f'Tour Cost: {best_tour_cost:.2f}, '
+                f'Duplicates: {best_duplicate:.2f}, '
+                f'Missing Edges: {best_missing_edge:.2f}, '
+                f'Steps: {data.num_steps}, '
+                f'Opt Time: {data.opt_time:.2f}s, '
+                f'Opt Step: {data.opt_step}'
+            )
+        else:
+            print(
+                f'{file}: {"Solved" if solved else "Unsolved"}, '
+                f'Num Unsat: {int(best)}, '
+                f'Steps: {data.num_steps}, '
+                f'Opt Time: {data.opt_time:.2f}s, '
+                f'Opt Step: {data.opt_step}'
+            )
 
-    print(f'Solved {100 * num_solved / num_total:.2f}%, Average Time: {total_time / num_total:.2f}s')
+    if model.config.get('use_tsp_objective', False):
+        print(
+            f'Solved {100 * num_solved / num_total:.2f}%, '
+            f'Average Objective: {total_objective / num_total:.2f}, '
+            f'Average Tour Cost: {total_tour_cost / num_total:.2f}, '
+            f'Average Time: {total_time / num_total:.2f}s'
+        )
+    else:
+        print(f'Solved {100 * num_solved / num_total:.2f}%, Average Time: {total_time / num_total:.2f}s')
