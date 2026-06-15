@@ -1,5 +1,7 @@
 import torch
 
+from src.utils.config_utils import use_tsp_objective
+
 
 def reward_improve(data):
     # Our default reward scheme: Difference to previous best clipped at 0
@@ -41,7 +43,7 @@ def reward_tsp_objective(data, improve=True):
 def reinforce_loss(data, config):
     # get reward in each step t
     assert config['reward'] in {'improve', 'quality'}
-    if config.get('use_tsp_objective', False):
+    if use_tsp_objective(config):
         reward = reward_tsp_objective(data, improve=config['reward'] == 'improve')
     elif config['reward'] == 'improve':
         reward = reward_improve(data)

@@ -209,10 +209,26 @@ class CSP_Data:
         big_m = big_m + 1.0
         return missing_edge_penalty, tour_cost, big_m
 
-    def tsp_objective(self, assignment):
+    def tsp_objective(self, assignment, objective_config=None):
+        if objective_config is None:
+            objective_config = {
+                'use_duplicate_penalty': True,
+                'use_missing_edge_penalty': True,
+                'use_tour_cost': True,
+            }
+
         duplicate_penalty = self.tsp_duplicate_penalty(assignment)
         missing_edge_penalty, tour_cost, big_m = self.tsp_edge_metrics(assignment)
-        objective = big_m * (duplicate_penalty + missing_edge_penalty) + tour_cost
+
+        duplicate_weight = 1.0 if objective_config.get('use_duplicate_penalty', True) else 0.0
+        missing_edge_weight = 1.0 if objective_config.get('use_missing_edge_penalty', True) else 0.0
+        tour_cost_weight = 1.0 if objective_config.get('use_tour_cost', True) else 0.0
+
+        objective = (
+            duplicate_weight * big_m * duplicate_penalty
+            + missing_edge_weight * big_m * missing_edge_penalty
+            + tour_cost_weight * tour_cost
+        )
         return {
             'objective': objective,
             'tour_cost': tour_cost,

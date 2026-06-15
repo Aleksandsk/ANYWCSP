@@ -5,7 +5,7 @@ from torch.nn import Module, GRUCell
 from torch_scatter import scatter_min, scatter_sum
 
 from src.model.layers import Val2Val_Layer, Cst2Val_Layer, Val2Cst_Layer, Policy
-from src.utils.config_utils import read_config, write_config
+from src.utils.config_utils import get_tsp_objective_config, read_config, write_config
 
 
 class ANYCSP(Module):
@@ -19,11 +19,12 @@ class ANYCSP(Module):
         self.config.setdefault('fix_first_var', True)
         self.config.setdefault('weight_all_diff_reward', True)
         self.config.setdefault('initialize_all_diff', False)
-        self.config.setdefault('use_tsp_objective', False)
+        self.config['tsp_objective'] = get_tsp_objective_config(self.config)
         self.fix_first_var = self.config['fix_first_var']
         self.weight_all_diff_reward = self.config['weight_all_diff_reward']
         self.initialize_all_diff = self.config['initialize_all_diff']
-        self.use_tsp_objective = self.config['use_tsp_objective']
+        self.tsp_objective_config = self.config['tsp_objective']
+        self.use_tsp_objective = self.tsp_objective_config['enabled']
 
         # GRU cell and its initial state
         self.h_val_init = torch.nn.Parameter(torch.normal(0.0, 1.0, (1, self.hidden_dim), dtype=torch.float32))
@@ -127,7 +128,7 @@ class ANYCSP(Module):
         return metric.gather(1, idx.view(-1, 1)).view(-1)
 
     def init_tsp_tracking(self, data, assignment):
-        metrics = data.tsp_objective(assignment)
+        metrics = data.tsp_objective(assignment, self.tsp_objective_config)
         objective, best_idx = metrics['objective'].min(dim=1)
 
         data.best_objective = objective
@@ -143,7 +144,7 @@ class ANYCSP(Module):
         return objective
 
     def update_tsp_tracking(self, data, assignment, num_unsat):
-        metrics = data.tsp_objective(assignment)
+        metrics = data.tsp_objective(assignment, self.tsp_objective_config)
         objective, best_idx = metrics['objective'].min(dim=1)
         tour_cost = self.gather_metric(metrics['tour_cost'], best_idx)
         duplicate_penalty = self.gather_metric(metrics['duplicate_penalty'], best_idx)

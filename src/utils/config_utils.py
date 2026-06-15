@@ -21,6 +21,28 @@ def read_config(path):
     return conf_dict
 
 
+def get_tsp_objective_config(config):
+    default = {
+        'enabled': False,
+        'use_duplicate_penalty': True,
+        'use_missing_edge_penalty': True,
+        'use_tour_cost': True,
+    }
+
+    objective_config = config.get('tsp_objective', None)
+    if isinstance(objective_config, dict):
+        default.update(objective_config)
+    elif isinstance(objective_config, bool):
+        default['enabled'] = objective_config
+    else:
+        default['enabled'] = bool(config.get('use_tsp_objective', False))
+    return default
+
+
+def use_tsp_objective(config):
+    return get_tsp_objective_config(config)['enabled']
+
+
 def dataset_from_config(data_config, num_samples=1000):
     if 'FILES' in data_config:
         dataset = File_Dataset(**data_config['FILES'])

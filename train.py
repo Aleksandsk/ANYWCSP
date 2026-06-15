@@ -4,7 +4,7 @@ from torch.utils.tensorboard import SummaryWriter
 from torch.optim.lr_scheduler import LambdaLR
 import numpy as np
 
-from src.utils.config_utils import read_config, dataset_from_config
+from src.utils.config_utils import read_config, dataset_from_config, use_tsp_objective
 from src.model.model import ANYCSP
 from src.model.loss import reinforce_loss
 from src.csp.csp_data import CSP_Data
@@ -125,7 +125,7 @@ def validate():
         best_unsat = data.best_num_unsat.view(-1)
         total_unsat += best_unsat.float().sum().cpu().numpy()
         total_solved += (best_unsat == 0).float().sum().cpu().numpy()
-        if config.get('use_tsp_objective', False):
+        if use_tsp_objective(config):
             total_objective += data.best_objective.float().sum().cpu().numpy()
             total_tour_cost += data.best_tour_cost.float().sum().cpu().numpy()
             total_duplicate += data.best_duplicate_penalty.float().sum().cpu().numpy()
@@ -136,7 +136,7 @@ def validate():
     solved = total_solved / total_count
     logger.add_scalar('Val/Solved_Ratio', solved, model.global_step)
     logger.add_scalar('Val/Unsat_Count', unsat, model.global_step)
-    if config.get('use_tsp_objective', False):
+    if use_tsp_objective(config):
         objective = total_objective / total_count
         tour_cost = total_tour_cost / total_count
         duplicate = total_duplicate / total_count
@@ -218,7 +218,7 @@ if __name__ == '__main__':
             val_metrics = validate()
             unsat, solved = val_metrics[:2]
 
-            if config.get('use_tsp_objective', False):
+            if use_tsp_objective(config):
                 objective, tour_cost, duplicate, missing_edge = val_metrics[2:]
                 print(
                     f'Mean Unsat Count: {unsat:.2f}, Solved: {100 * solved:.2f}%, '

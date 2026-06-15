@@ -5,6 +5,7 @@ from argparse import ArgumentParser
 from src.csp.csp_data import CSP_Data
 from src.model.model import ANYCSP
 from src.data.dataset import File_Dataset
+from src.utils.config_utils import use_tsp_objective
 
 
 if __name__ == '__main__':
@@ -62,7 +63,7 @@ if __name__ == '__main__':
             )
 
         best_per_run = data.best_num_unsat.cpu().detach().numpy()
-        if model.config.get('use_tsp_objective', False):
+        if use_tsp_objective(model.config):
             objective_per_run = data.best_objective.cpu().detach().numpy()
             best_run = int(objective_per_run.argmin())
             best_objective = float(objective_per_run[best_run])
@@ -78,7 +79,7 @@ if __name__ == '__main__':
         num_solved += int(solved)
         total_time += data.opt_time
 
-        if model.config.get('use_tsp_objective', False):
+        if use_tsp_objective(model.config):
             print(
                 f'{file}: {"Solved" if solved else "Unsolved"}, '
                 f'Num Unsat: {int(best)}, '
@@ -99,7 +100,7 @@ if __name__ == '__main__':
                 f'Opt Step: {data.opt_step}'
             )
 
-    if model.config.get('use_tsp_objective', False):
+    if use_tsp_objective(model.config):
         print(
             f'Solved {100 * num_solved / num_total:.2f}%, '
             f'Average Objective: {total_objective / num_total:.2f}, '

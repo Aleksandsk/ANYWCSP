@@ -1,0 +1,262 @@
+(.venv-anywcsp) (base) alexanderinfanta@LAPTOP-2MDGSRKC:~/ANYWCSP$ python train.py --config configs/TSP/TSP_default.json --model_dir models/TSP --num_workers 0 --logging_steps 10 --checkpoint_steps 5000
+Loading Data:
+100%|█████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 196.75it/s]
+Loading Data:
+100%|█████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 166.64it/s]
+Training Epoch 1: 100%|██████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.59s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.67it/s]
+Mean Unsat Count: 1.45, Solved: 0.00%, Mean TSP Objective: 1359.55, Mean Tour Cost: 213.90, Duplicates: 2.80, Missing Edges: 0.45
+Training Epoch 2: 100%|██████████████████████████████████████████████████████████████████| 5/5 [00:06<00:00,  1.28s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.76it/s]
+Mean Unsat Count: 1.30, Solved: 0.00%, Mean TSP Objective: 1380.60, Mean Tour Cost: 240.55, Duplicates: 2.85, Missing Edges: 0.30
+Training Epoch 3: 100%|██████████████████████████████████████████████████████████████████| 5/5 [00:06<00:00,  1.27s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.49it/s]
+Mean Unsat Count: 1.30, Solved: 0.00%, Mean TSP Objective: 1324.25, Mean Tour Cost: 229.00, Duplicates: 2.75, Missing Edges: 0.30
+Training Epoch 4: 100%|██████████████████████████████████████████████████████████████████| 5/5 [00:06<00:00,  1.30s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.86it/s]
+Mean Unsat Count: 1.35, Solved: 0.00%, Mean TSP Objective: 1426.45, Mean Tour Cost: 232.95, Duplicates: 2.95, Missing Edges: 0.35
+Training Epoch 5: 100%|██████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.45s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.45it/s]
+Mean Unsat Count: 1.20, Solved: 0.00%, Mean TSP Objective: 1288.90, Mean Tour Cost: 220.50, Duplicates: 2.65, Missing Edges: 0.20
+Training Epoch 6: 100%|██████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.49s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.60it/s]
+Mean Unsat Count: 1.40, Solved: 0.00%, Mean TSP Objective: 1406.15, Mean Tour Cost: 232.65, Duplicates: 2.90, Missing Edges: 0.40
+Training Epoch 7: 100%|██████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.50s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.64it/s]
+Mean Unsat Count: 1.50, Solved: 0.00%, Mean TSP Objective: 1433.20, Mean Tour Cost: 214.40, Duplicates: 2.95, Missing Edges: 0.50
+Training Epoch 8: 100%|██████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.46s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.62it/s]
+Mean Unsat Count: 1.50, Solved: 0.00%, Mean TSP Objective: 1425.70, Mean Tour Cost: 215.50, Duplicates: 2.95, Missing Edges: 0.50
+Training Epoch 9: 100%|██████████████████████████████████████████████████████████████████| 5/5 [00:10<00:00,  2.04s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.42it/s]
+Mean Unsat Count: 1.15, Solved: 0.00%, Mean TSP Objective: 1234.80, Mean Tour Cost: 230.40, Duplicates: 2.55, Missing Edges: 0.15
+Training Epoch 10: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.45s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.60it/s]
+Mean Unsat Count: 1.40, Solved: 0.00%, Mean TSP Objective: 1405.40, Mean Tour Cost: 231.55, Duplicates: 2.90, Missing Edges: 0.40
+Training Epoch 11: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:06<00:00,  1.39s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.48it/s]
+Mean Unsat Count: 1.75, Solved: 0.00%, Mean TSP Objective: 1365.55, Mean Tour Cost: 242.30, Duplicates: 2.80, Missing Edges: 0.75
+Training Epoch 12: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.73s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.51it/s]
+Mean Unsat Count: 1.70, Solved: 0.00%, Mean TSP Objective: 1358.05, Mean Tour Cost: 229.35, Duplicates: 2.80, Missing Edges: 0.70
+Training Epoch 13: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.48s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.52it/s]
+Mean Unsat Count: 1.45, Solved: 0.00%, Mean TSP Objective: 1361.80, Mean Tour Cost: 229.10, Duplicates: 2.80, Missing Edges: 0.45
+Training Epoch 14: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.68s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.24it/s]
+Mean Unsat Count: 1.55, Solved: 0.00%, Mean TSP Objective: 1398.65, Mean Tour Cost: 226.75, Duplicates: 2.90, Missing Edges: 0.55
+Training Epoch 15: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.50s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.54it/s]
+Mean Unsat Count: 1.30, Solved: 0.00%, Mean TSP Objective: 1388.85, Mean Tour Cost: 220.30, Duplicates: 2.85, Missing Edges: 0.30
+Training Epoch 16: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.74s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.39it/s]
+Mean Unsat Count: 1.10, Solved: 0.00%, Mean TSP Objective: 1326.50, Mean Tour Cost: 235.75, Duplicates: 2.75, Missing Edges: 0.10
+Training Epoch 17: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:11<00:00,  2.39s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.37it/s]
+Mean Unsat Count: 1.35, Solved: 0.00%, Mean TSP Objective: 1264.10, Mean Tour Cost: 221.70, Duplicates: 2.60, Missing Edges: 0.35
+Training Epoch 18: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.62s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.44it/s]
+Mean Unsat Count: 1.35, Solved: 0.00%, Mean TSP Objective: 1451.25, Mean Tour Cost: 232.30, Duplicates: 3.00, Missing Edges: 0.35
+Training Epoch 19: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.50s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.53it/s]
+Mean Unsat Count: 1.35, Solved: 0.00%, Mean TSP Objective: 1243.05, Mean Tour Cost: 229.75, Duplicates: 2.55, Missing Edges: 0.35
+Training Epoch 20: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.76s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.44it/s]
+Mean Unsat Count: 1.65, Solved: 0.00%, Mean TSP Objective: 1281.40, Mean Tour Cost: 213.70, Duplicates: 2.65, Missing Edges: 0.65
+Training Epoch 21: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.58s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.36it/s]
+Mean Unsat Count: 1.35, Solved: 0.00%, Mean TSP Objective: 1356.55, Mean Tour Cost: 221.35, Duplicates: 2.80, Missing Edges: 0.35
+Training Epoch 22: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.59s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.46it/s]
+Mean Unsat Count: 1.20, Solved: 0.00%, Mean TSP Objective: 1251.35, Mean Tour Cost: 231.85, Duplicates: 2.60, Missing Edges: 0.20
+Training Epoch 23: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.48s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.47it/s]
+Mean Unsat Count: 1.25, Solved: 0.00%, Mean TSP Objective: 1372.35, Mean Tour Cost: 220.55, Duplicates: 2.85, Missing Edges: 0.25
+Training Epoch 24: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.55s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.26it/s]
+Mean Unsat Count: 1.35, Solved: 0.00%, Mean TSP Objective: 1311.45, Mean Tour Cost: 237.85, Duplicates: 2.70, Missing Edges: 0.35
+Training Epoch 25: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.60s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.52it/s]
+Mean Unsat Count: 1.35, Solved: 0.00%, Mean TSP Objective: 1282.90, Mean Tour Cost: 220.75, Duplicates: 2.65, Missing Edges: 0.35
+Training Epoch 26: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.71s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.29it/s]
+Mean Unsat Count: 1.40, Solved: 0.00%, Mean TSP Objective: 1370.05, Mean Tour Cost: 232.05, Duplicates: 2.80, Missing Edges: 0.40
+Training Epoch 27: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.62s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.35it/s]
+Mean Unsat Count: 1.40, Solved: 0.00%, Mean TSP Objective: 1283.65, Mean Tour Cost: 229.10, Duplicates: 2.65, Missing Edges: 0.40
+Training Epoch 28: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.57s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.41it/s]
+Mean Unsat Count: 1.40, Solved: 0.00%, Mean TSP Objective: 1341.50, Mean Tour Cost: 223.25, Duplicates: 2.75, Missing Edges: 0.40
+Training Epoch 29: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.68s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.29it/s]
+Mean Unsat Count: 1.70, Solved: 0.00%, Mean TSP Objective: 1356.55, Mean Tour Cost: 218.85, Duplicates: 2.80, Missing Edges: 0.70
+Training Epoch 30: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.70s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.50it/s]
+Mean Unsat Count: 1.45, Solved: 0.00%, Mean TSP Objective: 1308.45, Mean Tour Cost: 216.75, Duplicates: 2.70, Missing Edges: 0.45
+Training Epoch 31: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.70s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.39it/s]
+Mean Unsat Count: 1.25, Solved: 0.00%, Mean TSP Objective: 1249.85, Mean Tour Cost: 239.90, Duplicates: 2.60, Missing Edges: 0.25
+Training Epoch 32: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.64s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.53it/s]
+Mean Unsat Count: 1.65, Solved: 0.00%, Mean TSP Objective: 1382.85, Mean Tour Cost: 218.80, Duplicates: 2.85, Missing Edges: 0.65
+Training Epoch 33: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.63s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:01<00:00,  1.11s/it]
+Mean Unsat Count: 1.30, Solved: 0.00%, Mean TSP Objective: 1255.85, Mean Tour Cost: 219.80, Duplicates: 2.60, Missing Edges: 0.30
+Training Epoch 34: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.71s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.46it/s]
+Mean Unsat Count: 1.35, Solved: 0.00%, Mean TSP Objective: 1308.45, Mean Tour Cost: 240.90, Duplicates: 2.70, Missing Edges: 0.35
+Training Epoch 35: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.51s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.24it/s]
+Mean Unsat Count: 1.50, Solved: 0.00%, Mean TSP Objective: 1257.35, Mean Tour Cost: 235.65, Duplicates: 2.60, Missing Edges: 0.50
+Training Epoch 36: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.57s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.32it/s]
+Mean Unsat Count: 1.85, Solved: 0.00%, Mean TSP Objective: 1438.45, Mean Tour Cost: 224.75, Duplicates: 2.95, Missing Edges: 0.85
+Training Epoch 37: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.51s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.41it/s]
+Mean Unsat Count: 1.60, Solved: 0.00%, Mean TSP Objective: 1405.40, Mean Tour Cost: 230.00, Duplicates: 2.90, Missing Edges: 0.60
+Training Epoch 38: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.46s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.33it/s]
+Mean Unsat Count: 1.65, Solved: 0.00%, Mean TSP Objective: 1394.10, Mean Tour Cost: 227.80, Duplicates: 2.85, Missing Edges: 0.65
+Training Epoch 39: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.46s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.22it/s]
+Mean Unsat Count: 1.65, Solved: 0.00%, Mean TSP Objective: 1460.25, Mean Tour Cost: 228.05, Duplicates: 3.00, Missing Edges: 0.65
+Training Epoch 40: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:10<00:00,  2.10s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:01<00:00,  1.18s/it]
+Mean Unsat Count: 1.40, Solved: 0.00%, Mean TSP Objective: 1233.30, Mean Tour Cost: 226.60, Duplicates: 2.55, Missing Edges: 0.40
+Training Epoch 41: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:11<00:00,  2.39s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.33it/s]
+Mean Unsat Count: 1.55, Solved: 0.00%, Mean TSP Objective: 1396.40, Mean Tour Cost: 227.30, Duplicates: 2.90, Missing Edges: 0.55
+Training Epoch 42: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.70s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.40it/s]
+Mean Unsat Count: 1.75, Solved: 0.00%, Mean TSP Objective: 1450.50, Mean Tour Cost: 216.75, Duplicates: 3.00, Missing Edges: 0.75
+Training Epoch 43: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.64s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:01<00:00,  1.27s/it]
+Mean Unsat Count: 1.35, Solved: 0.00%, Mean TSP Objective: 1326.50, Mean Tour Cost: 224.85, Duplicates: 2.75, Missing Edges: 0.35
+Training Epoch 44: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:09<00:00,  1.95s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:01<00:00,  1.25s/it]
+Mean Unsat Count: 1.50, Solved: 0.00%, Mean TSP Objective: 1373.10, Mean Tour Cost: 227.30, Duplicates: 2.85, Missing Edges: 0.50
+Training Epoch 45: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.57s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.46it/s]
+Mean Unsat Count: 1.65, Solved: 0.00%, Mean TSP Objective: 1252.10, Mean Tour Cost: 232.40, Duplicates: 2.60, Missing Edges: 0.65
+Training Epoch 46: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.62s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.37it/s]
+Mean Unsat Count: 1.25, Solved: 0.00%, Mean TSP Objective: 1439.20, Mean Tour Cost: 230.80, Duplicates: 2.95, Missing Edges: 0.25
+Training Epoch 47: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.44s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.45it/s]
+Mean Unsat Count: 1.50, Solved: 0.00%, Mean TSP Objective: 1382.85, Mean Tour Cost: 227.45, Duplicates: 2.85, Missing Edges: 0.50
+Training Epoch 48: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:06<00:00,  1.34s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.40it/s]
+Mean Unsat Count: 1.20, Solved: 0.00%, Mean TSP Objective: 1301.70, Mean Tour Cost: 231.65, Duplicates: 2.70, Missing Edges: 0.20
+Training Epoch 49: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:08<00:00,  1.70s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.45it/s]
+Mean Unsat Count: 1.20, Solved: 0.00%, Mean TSP Objective: 1425.70, Mean Tour Cost: 223.95, Duplicates: 2.95, Missing Edges: 0.20
+Training Epoch 50: 100%|█████████████████████████████████████████████████████████████████| 5/5 [00:07<00:00,  1.54s/it]
+Validating: 100%|████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.39it/s]
+Mean Unsat Count: 1.20, Solved: 0.00%, Mean TSP Objective: 1397.15, Mean Tour Cost: 228.45, Duplicates: 2.90, Missing Edges: 0.20
+(.venv-anywcsp) (base) alexanderinfanta@LAPTOP-2MDGSRKC:~/ANYWCSP$ python evaluate.py --model_dir models/TSP --data_path 'data/TravellingSalesman-m1-n20/*.xml' --checkpoint_name best --network_steps 40 --num_boost 1 --timeout 1200 --verbose
+Loading Data:
+100%|█████████████████████████████████████████████████████████████████████████████████| 20/20 [00:00<00:00, 152.30it/s]
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-15.xml:
+o 3846.00
+o 3205.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-15.xml: Unsolved, Num Unsat: 1, TSP Objective: 3205.00, Tour Cost: 237.00, Duplicates: 5.00, Missing Edges: 0.00, Steps: 40, Opt Time: 1.31s, Opt Step: 4
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-09.xml:
+o 5047.00
+o 4326.00
+o 3605.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-09.xml: Unsolved, Num Unsat: 2, TSP Objective: 3605.00, Tour Cost: 371.00, Duplicates: 5.00, Missing Edges: 1.00, Steps: 40, Opt Time: 0.15s, Opt Step: 14
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-00.xml:
+o 5768.00
+o 4326.00
+o 3605.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-00.xml: Unsolved, Num Unsat: 1, TSP Objective: 3605.00, Tour Cost: 271.00, Duplicates: 5.00, Missing Edges: 0.00, Steps: 40, Opt Time: 0.25s, Opt Step: 36
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-07.xml:
+o 2283.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-07.xml: Unsolved, Num Unsat: 3, TSP Objective: 2283.00, Tour Cost: 233.00, Duplicates: 3.00, Missing Edges: 2.00, Steps: 40, Opt Time: 0.00s, Opt Step: 0
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-10.xml:
+o 4767.00
+o 4086.00
+o 3405.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-10.xml: Unsolved, Num Unsat: 2, TSP Objective: 3405.00, Tour Cost: 277.00, Duplicates: 5.00, Missing Edges: 1.00, Steps: 40, Opt Time: 0.09s, Opt Step: 12
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-13.xml:
+o 5769.00
+o 5128.00
+o 4487.00
+o 3205.00
+o 2564.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-13.xml: Unsolved, Num Unsat: 1, TSP Objective: 2564.00, Tour Cost: 342.00, Duplicates: 4.00, Missing Edges: 0.00, Steps: 40, Opt Time: 0.17s, Opt Step: 23
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-06.xml:
+o 6309.00
+o 4907.00
+o 4206.00
+o 3505.00
+o 2804.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-06.xml: Unsolved, Num Unsat: 2, TSP Objective: 2804.00, Tour Cost: 286.00, Duplicates: 4.00, Missing Edges: 1.00, Steps: 40, Opt Time: 0.17s, Opt Step: 19
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-02.xml:
+o 5047.00
+o 2884.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-02.xml: Unsolved, Num Unsat: 1, TSP Objective: 2884.00, Tour Cost: 374.00, Duplicates: 4.00, Missing Edges: 0.00, Steps: 40, Opt Time: 0.08s, Opt Step: 7
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-01.xml:
+o 3005.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-01.xml: Unsolved, Num Unsat: 1, TSP Objective: 3005.00, Tour Cost: 367.00, Duplicates: 5.00, Missing Edges: 0.00, Steps: 40, Opt Time: 0.00s, Opt Step: 0
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-04.xml:
+o 4086.00
+o 3405.00
+o 2724.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-04.xml: Unsolved, Num Unsat: 1, TSP Objective: 2724.00, Tour Cost: 307.00, Duplicates: 4.00, Missing Edges: 0.00, Steps: 40, Opt Time: 0.09s, Opt Step: 13
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-17.xml:
+o 5229.00
+o 3486.00
+o 2324.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-17.xml: Unsolved, Num Unsat: 1, TSP Objective: 2324.00, Tour Cost: 292.00, Duplicates: 4.00, Missing Edges: 0.00, Steps: 40, Opt Time: 0.21s, Opt Step: 31
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-14.xml:
+o 6410.00
+o 4487.00
+o 3846.00
+o 2564.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-14.xml: Unsolved, Num Unsat: 1, TSP Objective: 2564.00, Tour Cost: 331.00, Duplicates: 4.00, Missing Edges: 0.00, Steps: 40, Opt Time: 0.07s, Opt Step: 8
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-16.xml:
+o 5608.00
+o 3505.00
+o 2804.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-16.xml: Unsolved, Num Unsat: 2, TSP Objective: 2804.00, Tour Cost: 351.00, Duplicates: 4.00, Missing Edges: 1.00, Steps: 40, Opt Time: 0.15s, Opt Step: 18
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-12.xml:
+o 4627.00
+o 3305.00
+o 2644.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-12.xml: Unsolved, Num Unsat: 1, TSP Objective: 2644.00, Tour Cost: 321.00, Duplicates: 4.00, Missing Edges: 0.00, Steps: 40, Opt Time: 0.28s, Opt Step: 35
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-18.xml:
+o 4207.00
+o 3606.00
+o 3005.00
+o 2404.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-18.xml: Unsolved, Num Unsat: 1, TSP Objective: 2404.00, Tour Cost: 305.00, Duplicates: 4.00, Missing Edges: 0.00, Steps: 40, Opt Time: 0.13s, Opt Step: 16
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-05.xml:
+o 4566.00
+o 3805.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-05.xml: Unsolved, Num Unsat: 2, TSP Objective: 3805.00, Tour Cost: 242.00, Duplicates: 5.00, Missing Edges: 1.00, Steps: 40, Opt Time: 0.09s, Opt Step: 6
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-08.xml:
+o 3846.00
+o 3205.00
+o 2564.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-08.xml: Unsolved, Num Unsat: 1, TSP Objective: 2564.00, Tour Cost: 298.00, Duplicates: 4.00, Missing Edges: 0.00, Steps: 40, Opt Time: 0.22s, Opt Step: 28
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-03.xml:
+o 5448.00
+o 4767.00
+o 4086.00
+o 2724.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-03.xml: Unsolved, Num Unsat: 1, TSP Objective: 2724.00, Tour Cost: 343.00, Duplicates: 4.00, Missing Edges: 0.00, Steps: 40, Opt Time: 0.09s, Opt Step: 10
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-19.xml:
+o 4627.00
+o 3966.00
+o 3305.00
+o 2644.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-19.xml: Unsolved, Num Unsat: 3, TSP Objective: 2644.00, Tour Cost: 282.00, Duplicates: 4.00, Missing Edges: 2.00, Steps: 40, Opt Time: 0.33s, Opt Step: 39
+Solving data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-11.xml:
+o 5128.00
+o 4487.00
+o 3846.00
+o 2564.00
+data/TravellingSalesman-m1-n20/TravellingSalesman-20-30-11.xml: Unsolved, Num Unsat: 1, TSP Objective: 2564.00, Tour Cost: 316.00, Duplicates: 4.00, Missing Edges: 0.00, Steps: 40, Opt Time: 0.24s, Opt Step: 31
+Solved 0.00%, Average Objective: 2856.25, Average Tour Cost: 307.30, Average Time: 0.21s
+(.venv-anywcsp) (base) alexanderinfanta@LAPTOP-2MDGSRKC:~/ANYWCSP$ 
