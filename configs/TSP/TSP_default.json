@@ -13,9 +13,9 @@
         "use_missing_edge_penalty": false,
         "use_tour_cost": false
     },
-    "T_train": 80,
-    "T_val": 40,
-    "epochs": 50,
+    "T_train": 40,
+    "T_val": 200,
+    "epochs": 500,
     "epoch_steps": 1000,
     "lr": 5e-06,
     "lr_decay": 0.1,
