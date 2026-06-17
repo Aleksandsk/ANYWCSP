@@ -15,7 +15,7 @@
     },
     "T_train": 40,
     "T_val": 200,
-    "epochs": 500,
+    "epochs": 1000,
     "epoch_steps": 1000,
     "lr": 5e-06,
     "lr_decay": 0.1,
