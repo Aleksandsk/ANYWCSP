@@ -3,3 +3,11 @@
 .venv-anywcsp
 /models
 __pycache__/
+
+# Local documentation and notebooks
+*.md
+*.ipynb
+.ipynb_checkpoints/
+
+# Cluster runtime logs
+/logs/
