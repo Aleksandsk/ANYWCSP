@@ -1,0 +1,37 @@
+{
+    "hidden_dim": 128,
+    "aggr_val2cst": "max",
+    "aggr_cst2val": "max",
+    "aggr_val2var": "max",
+    "sampling": "global",
+    "fix_first_var": true,
+    "weight_all_diff_reward": false,
+    "initialize_all_diff": false,
+    "tsp_objective": {
+        "enabled": true,
+        "use_duplicate_penalty": true,
+        "use_missing_edge_penalty": false,
+        "use_tour_cost": true
+    },
+    "T_train": 40,
+    "T_val": 200,
+    "epochs": 19000,
+    "epoch_steps": 1000,
+    "lr": 5e-06,
+    "lr_decay": 0.1,
+    "weight_decay": 0.0,
+    "discount": 0.75,
+    "reward": "improve",
+    "batch_size": 4,
+    "val_batch_size": 20,
+    "train_data": {
+        "FILES": {
+            "path": "data/TravellingSalesman-m1-n15/*.xml"
+        }
+    },
+    "val_data": {
+        "FILES": {
+            "path": "data/TravellingSalesman-m1-n20/*.xml"
+        }
+    }
+}
