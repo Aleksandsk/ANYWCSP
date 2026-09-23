@@ -1,7 +1,6 @@
 /data/test
 /data/validation
 .venv-anywcsp
-/models
 __pycache__/
 
 # Local documentation and notebooks
