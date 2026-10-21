@@ -10,3 +10,6 @@ __pycache__/
 
 # Cluster runtime logs
 /logs/
+
+*.png
+results/tsp_n30_evaluation/
