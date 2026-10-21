@@ -8,8 +8,8 @@ __pycache__/
 *.ipynb
 .ipynb_checkpoints/
 
-# Cluster runtime logs
-/logs/
+# # Cluster runtime logs
+# /logs/
 
 *.png
 results/tsp_n30_evaluation/
