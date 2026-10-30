@@ -99,6 +99,7 @@ class CSP_Data:
         domain = torch.cat([d.domain for d in batch])
         batch_idx = torch.cat([d.batch + i for i, d in enumerate(batch)])
         batch_data = CSP_Data(num_var, domain_size, domain=domain, batch=batch_idx)
+        batch_data.instance_paths = [d.path for d in batch]
 
         cst_batch_dict = {}
         for i, data in enumerate(batch):

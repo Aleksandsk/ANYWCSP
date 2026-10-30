@@ -5,6 +5,12 @@ from torch.optim.lr_scheduler import LambdaLR
 import numpy as np
 
 from src.utils.config_utils import read_config, dataset_from_config, use_tsp_objective
+from src.utils.assignment_logging import (
+    ASSIGNMENT_INTERVAL_EPOCHS,
+    assignment_file_path,
+    best_training_assignments,
+    save_assignment_history,
+)
 from src.model.model import ANYCSP
 from src.model.loss import reinforce_loss
 from src.csp.csp_data import CSP_Data
@@ -82,7 +88,7 @@ def save_epoch_history(results_path, metadata, epoch_history):
         )
 
 
-def train_epoch():
+def train_epoch(assignment_records=None):
     model.train()
     unsat_list = []
     unsat_ratio_list = []
@@ -139,6 +145,11 @@ def train_epoch():
             total_duplicate += float(data.best_duplicate_penalty.float().sum().detach().cpu().item())
             total_missing_edge += float(data.best_missing_edge_penalty.float().sum().detach().cpu().item())
         total_count += batch_count
+
+        if assignment_records is not None:
+            assignment_records.extend(
+                best_training_assignments(data, instance_offset=len(assignment_records))
+            )
 
         if (model.global_step + 1) % args.logging_steps == 0:
             unsat = torch.cat(unsat_list, dim=0)
@@ -301,17 +312,40 @@ if __name__ == '__main__':
     }
     epoch_history = load_epoch_history(results_path) if args.pretrained_dir is not None else []
     save_epoch_history(results_path, results_metadata, epoch_history)
+    assignment_path = assignment_file_path(results_path) if use_tsp_objective(config) else None
+    if assignment_path is not None:
+        assignment_metadata = {
+            **results_metadata,
+            'interval_epochs': ASSIGNMENT_INTERVAL_EPOCHS,
+            'selection_metric': 'tsp_objective',
+            'selection_scope': 'training rollout within the recorded epoch',
+            'tie_break': 'earliest step, including initialization at step 0',
+            'assignment_order': 'CSP variable order, using original domain values',
+            'tsp_objective': config['tsp_objective'],
+        }
+        assignment_history = load_epoch_history(assignment_path) if args.pretrained_dir is not None else []
+        save_assignment_history(assignment_path, assignment_metadata, assignment_history)
+        print(f'Training assignments: {assignment_path} (every {ASSIGNMENT_INTERVAL_EPOCHS} epochs)')
     best_unsat = np.float32('inf')
     best_solved = 0.0
     start_step = 0
     for epoch in range(config['epochs']):
-        train_metrics = train_epoch()
+        epoch_number = len(epoch_history) + 1
+        assignment_records = (
+            [] if assignment_path is not None and epoch_number % ASSIGNMENT_INTERVAL_EPOCHS == 0
+            else None
+        )
+        train_metrics = train_epoch(assignment_records=assignment_records)
         epoch_record = {
-            'epoch': int(len(epoch_history) + 1),
+            'epoch': int(epoch_number),
             'train': train_metrics,
         }
         epoch_history.append(epoch_record)
         save_epoch_history(results_path, results_metadata, epoch_history)
+
+        if assignment_records is not None:
+            assignment_history.append({'epoch': epoch_number, 'instances': assignment_records})
+            save_assignment_history(assignment_path, assignment_metadata, assignment_history)
 
         if val_loader is not None:
             val_metrics = validate()
