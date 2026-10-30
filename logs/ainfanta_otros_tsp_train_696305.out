@@ -1,0 +1,30 @@
+compute-gpu-3-1.mansci.uai.cl
+/scratch/ainfanta_otros/ANYWCSP
+/nfs_ssd/ainfanta_otros/ANYWCSP/.venv-anywcsp/bin/python
+Thu Jun 18 17:58:47 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.71.05              Driver Version: 595.71.05      CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                On  |   00000000:04:00.0 Off |                    0 |
+| N/A   32C    P0             65W /  350W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Torch: 2.0.0+cu117
+CUDA available: True
+CUDA device: NVIDIA H100 NVL
+CUDA version used by PyTorch: 11.7
+Number of CUDA devices: 1
+Loading Data:
+Loading Data:

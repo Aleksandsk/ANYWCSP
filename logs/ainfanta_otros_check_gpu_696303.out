@@ -1,0 +1,28 @@
+PWD: /nfs_ssd/ainfanta_otros/ANYWCSP
+Host: compute-gpu-3-1.mansci.uai.cl
+Job ID: 696303
+Thu Jun 18 14:39:10 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.71.05              Driver Version: 595.71.05      CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                On  |   00000000:E3:00.0 Off |                    0 |
+| N/A   34C    P0             66W /  350W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Torch: 2.0.0+cu117
+CUDA available: True
+CUDA device: NVIDIA H100 NVL
+CUDA version used by PyTorch: 11.7
+Number of CUDA devices: 1
