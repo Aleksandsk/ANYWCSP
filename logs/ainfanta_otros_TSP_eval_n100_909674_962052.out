@@ -1,0 +1,223 @@
+Results: results/evaluation_TSP_duplicates_tour_19000_909674_n100_best_962052.json
+20 instances x 10 seeds x 200 steps on cuda
+TravellingSalesman-100-50-00.xml seed=0: objective=2368.00, duplicates=0, missing=0, valid_cost=2368.0, 1.04s
+TravellingSalesman-100-50-00.xml seed=1: objective=2666.00, duplicates=0, missing=0, valid_cost=2666.0, 0.65s
+TravellingSalesman-100-50-00.xml seed=2: objective=2655.00, duplicates=0, missing=0, valid_cost=2655.0, 0.65s
+TravellingSalesman-100-50-00.xml seed=3: objective=2449.00, duplicates=0, missing=0, valid_cost=2449.0, 0.65s
+TravellingSalesman-100-50-00.xml seed=4: objective=2559.00, duplicates=0, missing=0, valid_cost=2559.0, 0.65s
+TravellingSalesman-100-50-00.xml seed=5: objective=2600.00, duplicates=0, missing=0, valid_cost=2600.0, 0.65s
+TravellingSalesman-100-50-00.xml seed=6: objective=2616.00, duplicates=0, missing=0, valid_cost=2616.0, 0.65s
+TravellingSalesman-100-50-00.xml seed=7: objective=2470.00, duplicates=0, missing=0, valid_cost=2470.0, 0.65s
+TravellingSalesman-100-50-00.xml seed=8: objective=2584.00, duplicates=0, missing=0, valid_cost=2584.0, 0.64s
+TravellingSalesman-100-50-00.xml seed=9: objective=2670.00, duplicates=0, missing=0, valid_cost=2670.0, 0.65s
+TravellingSalesman-100-50-01.xml seed=0: objective=2489.00, duplicates=0, missing=0, valid_cost=2489.0, 0.65s
+TravellingSalesman-100-50-01.xml seed=1: objective=2572.00, duplicates=0, missing=0, valid_cost=2572.0, 0.65s
+TravellingSalesman-100-50-01.xml seed=2: objective=2703.00, duplicates=0, missing=0, valid_cost=2703.0, 0.65s
+TravellingSalesman-100-50-01.xml seed=3: objective=2481.00, duplicates=0, missing=0, valid_cost=2481.0, 0.65s
+TravellingSalesman-100-50-01.xml seed=4: objective=2564.00, duplicates=0, missing=0, valid_cost=2564.0, 0.65s
+TravellingSalesman-100-50-01.xml seed=5: objective=2629.00, duplicates=0, missing=0, valid_cost=2629.0, 0.65s
+TravellingSalesman-100-50-01.xml seed=6: objective=2580.00, duplicates=0, missing=0, valid_cost=2580.0, 0.64s
+TravellingSalesman-100-50-01.xml seed=7: objective=2562.00, duplicates=0, missing=0, valid_cost=2562.0, 0.65s
+TravellingSalesman-100-50-01.xml seed=8: objective=2567.00, duplicates=0, missing=0, valid_cost=2567.0, 0.65s
+TravellingSalesman-100-50-01.xml seed=9: objective=2713.00, duplicates=0, missing=0, valid_cost=2713.0, 0.64s
+TravellingSalesman-100-50-02.xml seed=0: objective=2347.00, duplicates=0, missing=0, valid_cost=2347.0, 0.64s
+TravellingSalesman-100-50-02.xml seed=1: objective=2426.00, duplicates=0, missing=0, valid_cost=2426.0, 0.65s
+TravellingSalesman-100-50-02.xml seed=2: objective=2568.00, duplicates=0, missing=0, valid_cost=2568.0, 0.65s
+TravellingSalesman-100-50-02.xml seed=3: objective=2350.00, duplicates=0, missing=0, valid_cost=2350.0, 0.64s
+TravellingSalesman-100-50-02.xml seed=4: objective=2332.00, duplicates=0, missing=0, valid_cost=2332.0, 0.64s
+TravellingSalesman-100-50-02.xml seed=5: objective=2665.00, duplicates=0, missing=0, valid_cost=2665.0, 0.65s
+TravellingSalesman-100-50-02.xml seed=6: objective=2581.00, duplicates=0, missing=0, valid_cost=2581.0, 0.64s
+TravellingSalesman-100-50-02.xml seed=7: objective=2523.00, duplicates=0, missing=0, valid_cost=2523.0, 0.64s
+TravellingSalesman-100-50-02.xml seed=8: objective=2454.00, duplicates=0, missing=0, valid_cost=2454.0, 0.65s
+TravellingSalesman-100-50-02.xml seed=9: objective=2679.00, duplicates=0, missing=0, valid_cost=2679.0, 0.65s
+TravellingSalesman-100-50-03.xml seed=0: objective=2386.00, duplicates=0, missing=0, valid_cost=2386.0, 0.64s
+TravellingSalesman-100-50-03.xml seed=1: objective=2580.00, duplicates=0, missing=0, valid_cost=2580.0, 0.65s
+TravellingSalesman-100-50-03.xml seed=2: objective=2559.00, duplicates=0, missing=0, valid_cost=2559.0, 0.66s
+TravellingSalesman-100-50-03.xml seed=3: objective=2515.00, duplicates=0, missing=0, valid_cost=2515.0, 0.65s
+TravellingSalesman-100-50-03.xml seed=4: objective=2444.00, duplicates=0, missing=0, valid_cost=2444.0, 0.65s
+TravellingSalesman-100-50-03.xml seed=5: objective=2746.00, duplicates=0, missing=0, valid_cost=2746.0, 0.65s
+TravellingSalesman-100-50-03.xml seed=6: objective=2440.00, duplicates=0, missing=0, valid_cost=2440.0, 0.65s
+TravellingSalesman-100-50-03.xml seed=7: objective=2553.00, duplicates=0, missing=0, valid_cost=2553.0, 0.64s
+TravellingSalesman-100-50-03.xml seed=8: objective=2461.00, duplicates=0, missing=0, valid_cost=2461.0, 0.64s
+TravellingSalesman-100-50-03.xml seed=9: objective=2560.00, duplicates=0, missing=0, valid_cost=2560.0, 0.65s
+TravellingSalesman-100-50-04.xml seed=0: objective=2793.00, duplicates=0, missing=0, valid_cost=2793.0, 0.65s
+TravellingSalesman-100-50-04.xml seed=1: objective=2870.00, duplicates=0, missing=0, valid_cost=2870.0, 0.64s
+TravellingSalesman-100-50-04.xml seed=2: objective=2789.00, duplicates=0, missing=0, valid_cost=2789.0, 0.65s
+TravellingSalesman-100-50-04.xml seed=3: objective=2608.00, duplicates=0, missing=0, valid_cost=2608.0, 0.65s
+TravellingSalesman-100-50-04.xml seed=4: objective=2709.00, duplicates=0, missing=0, valid_cost=2709.0, 0.65s
+TravellingSalesman-100-50-04.xml seed=5: objective=2897.00, duplicates=0, missing=0, valid_cost=2897.0, 0.65s
+TravellingSalesman-100-50-04.xml seed=6: objective=2884.00, duplicates=0, missing=0, valid_cost=2884.0, 0.65s
+TravellingSalesman-100-50-04.xml seed=7: objective=2700.00, duplicates=0, missing=0, valid_cost=2700.0, 0.65s
+TravellingSalesman-100-50-04.xml seed=8: objective=2464.00, duplicates=0, missing=0, valid_cost=2464.0, 0.64s
+TravellingSalesman-100-50-04.xml seed=9: objective=2825.00, duplicates=0, missing=0, valid_cost=2825.0, 0.65s
+TravellingSalesman-100-50-05.xml seed=0: objective=2439.00, duplicates=0, missing=0, valid_cost=2439.0, 0.65s
+TravellingSalesman-100-50-05.xml seed=1: objective=2693.00, duplicates=0, missing=0, valid_cost=2693.0, 0.65s
+TravellingSalesman-100-50-05.xml seed=2: objective=2590.00, duplicates=0, missing=0, valid_cost=2590.0, 0.64s
+TravellingSalesman-100-50-05.xml seed=3: objective=2627.00, duplicates=0, missing=0, valid_cost=2627.0, 0.65s
+TravellingSalesman-100-50-05.xml seed=4: objective=2543.00, duplicates=0, missing=0, valid_cost=2543.0, 0.65s
+TravellingSalesman-100-50-05.xml seed=5: objective=2800.00, duplicates=0, missing=0, valid_cost=2800.0, 0.65s
+TravellingSalesman-100-50-05.xml seed=6: objective=2651.00, duplicates=0, missing=0, valid_cost=2651.0, 0.64s
+TravellingSalesman-100-50-05.xml seed=7: objective=2564.00, duplicates=0, missing=0, valid_cost=2564.0, 0.65s
+TravellingSalesman-100-50-05.xml seed=8: objective=2662.00, duplicates=0, missing=0, valid_cost=2662.0, 0.65s
+TravellingSalesman-100-50-05.xml seed=9: objective=2734.00, duplicates=0, missing=0, valid_cost=2734.0, 0.64s
+TravellingSalesman-100-50-06.xml seed=0: objective=2534.00, duplicates=0, missing=0, valid_cost=2534.0, 0.65s
+TravellingSalesman-100-50-06.xml seed=1: objective=2685.00, duplicates=0, missing=0, valid_cost=2685.0, 0.65s
+TravellingSalesman-100-50-06.xml seed=2: objective=2518.00, duplicates=0, missing=0, valid_cost=2518.0, 0.65s
+TravellingSalesman-100-50-06.xml seed=3: objective=2475.00, duplicates=0, missing=0, valid_cost=2475.0, 0.65s
+TravellingSalesman-100-50-06.xml seed=4: objective=2683.00, duplicates=0, missing=0, valid_cost=2683.0, 0.65s
+TravellingSalesman-100-50-06.xml seed=5: objective=2688.00, duplicates=0, missing=0, valid_cost=2688.0, 0.66s
+TravellingSalesman-100-50-06.xml seed=6: objective=2756.00, duplicates=0, missing=0, valid_cost=2756.0, 0.64s
+TravellingSalesman-100-50-06.xml seed=7: objective=2580.00, duplicates=0, missing=0, valid_cost=2580.0, 0.64s
+TravellingSalesman-100-50-06.xml seed=8: objective=2279.00, duplicates=0, missing=0, valid_cost=2279.0, 0.65s
+TravellingSalesman-100-50-06.xml seed=9: objective=2660.00, duplicates=0, missing=0, valid_cost=2660.0, 0.73s
+TravellingSalesman-100-50-07.xml seed=0: objective=2461.00, duplicates=0, missing=0, valid_cost=2461.0, 0.64s
+TravellingSalesman-100-50-07.xml seed=1: objective=2523.00, duplicates=0, missing=0, valid_cost=2523.0, 0.65s
+TravellingSalesman-100-50-07.xml seed=2: objective=2512.00, duplicates=0, missing=0, valid_cost=2512.0, 0.65s
+TravellingSalesman-100-50-07.xml seed=3: objective=2521.00, duplicates=0, missing=0, valid_cost=2521.0, 0.65s
+TravellingSalesman-100-50-07.xml seed=4: objective=2413.00, duplicates=0, missing=0, valid_cost=2413.0, 0.65s
+TravellingSalesman-100-50-07.xml seed=5: objective=2669.00, duplicates=0, missing=0, valid_cost=2669.0, 0.66s
+TravellingSalesman-100-50-07.xml seed=6: objective=2538.00, duplicates=0, missing=0, valid_cost=2538.0, 0.65s
+TravellingSalesman-100-50-07.xml seed=7: objective=2388.00, duplicates=0, missing=0, valid_cost=2388.0, 0.65s
+TravellingSalesman-100-50-07.xml seed=8: objective=2210.00, duplicates=0, missing=0, valid_cost=2210.0, 0.65s
+TravellingSalesman-100-50-07.xml seed=9: objective=2597.00, duplicates=0, missing=0, valid_cost=2597.0, 0.65s
+TravellingSalesman-100-50-08.xml seed=0: objective=2508.00, duplicates=0, missing=0, valid_cost=2508.0, 0.65s
+TravellingSalesman-100-50-08.xml seed=1: objective=2699.00, duplicates=0, missing=0, valid_cost=2699.0, 0.65s
+TravellingSalesman-100-50-08.xml seed=2: objective=2632.00, duplicates=0, missing=0, valid_cost=2632.0, 0.65s
+TravellingSalesman-100-50-08.xml seed=3: objective=2671.00, duplicates=0, missing=0, valid_cost=2671.0, 0.65s
+TravellingSalesman-100-50-08.xml seed=4: objective=2414.00, duplicates=0, missing=0, valid_cost=2414.0, 0.65s
+TravellingSalesman-100-50-08.xml seed=5: objective=2655.00, duplicates=0, missing=0, valid_cost=2655.0, 0.65s
+TravellingSalesman-100-50-08.xml seed=6: objective=2791.00, duplicates=0, missing=0, valid_cost=2791.0, 0.65s
+TravellingSalesman-100-50-08.xml seed=7: objective=2452.00, duplicates=0, missing=0, valid_cost=2452.0, 0.64s
+TravellingSalesman-100-50-08.xml seed=8: objective=2620.00, duplicates=0, missing=0, valid_cost=2620.0, 0.65s
+TravellingSalesman-100-50-08.xml seed=9: objective=2577.00, duplicates=0, missing=0, valid_cost=2577.0, 0.65s
+TravellingSalesman-100-50-09.xml seed=0: objective=2522.00, duplicates=0, missing=0, valid_cost=2522.0, 0.65s
+TravellingSalesman-100-50-09.xml seed=1: objective=2701.00, duplicates=0, missing=0, valid_cost=2701.0, 0.65s
+TravellingSalesman-100-50-09.xml seed=2: objective=2709.00, duplicates=0, missing=0, valid_cost=2709.0, 0.65s
+TravellingSalesman-100-50-09.xml seed=3: objective=2565.00, duplicates=0, missing=0, valid_cost=2565.0, 0.66s
+TravellingSalesman-100-50-09.xml seed=4: objective=2486.00, duplicates=0, missing=0, valid_cost=2486.0, 0.65s
+TravellingSalesman-100-50-09.xml seed=5: objective=2640.00, duplicates=0, missing=0, valid_cost=2640.0, 0.65s
+TravellingSalesman-100-50-09.xml seed=6: objective=2585.00, duplicates=0, missing=0, valid_cost=2585.0, 0.65s
+TravellingSalesman-100-50-09.xml seed=7: objective=2589.00, duplicates=0, missing=0, valid_cost=2589.0, 0.64s
+TravellingSalesman-100-50-09.xml seed=8: objective=2390.00, duplicates=0, missing=0, valid_cost=2390.0, 0.65s
+TravellingSalesman-100-50-09.xml seed=9: objective=2500.00, duplicates=0, missing=0, valid_cost=2500.0, 0.65s
+TravellingSalesman-100-50-10.xml seed=0: objective=2400.00, duplicates=0, missing=0, valid_cost=2400.0, 0.65s
+TravellingSalesman-100-50-10.xml seed=1: objective=2726.00, duplicates=0, missing=0, valid_cost=2726.0, 0.74s
+TravellingSalesman-100-50-10.xml seed=2: objective=2633.00, duplicates=0, missing=0, valid_cost=2633.0, 0.65s
+TravellingSalesman-100-50-10.xml seed=3: objective=2581.00, duplicates=0, missing=0, valid_cost=2581.0, 0.65s
+TravellingSalesman-100-50-10.xml seed=4: objective=2639.00, duplicates=0, missing=0, valid_cost=2639.0, 0.64s
+TravellingSalesman-100-50-10.xml seed=5: objective=2599.00, duplicates=0, missing=0, valid_cost=2599.0, 0.65s
+TravellingSalesman-100-50-10.xml seed=6: objective=2622.00, duplicates=0, missing=0, valid_cost=2622.0, 0.65s
+TravellingSalesman-100-50-10.xml seed=7: objective=2681.00, duplicates=0, missing=0, valid_cost=2681.0, 0.65s
+TravellingSalesman-100-50-10.xml seed=8: objective=2474.00, duplicates=0, missing=0, valid_cost=2474.0, 0.65s
+TravellingSalesman-100-50-10.xml seed=9: objective=2694.00, duplicates=0, missing=0, valid_cost=2694.0, 0.65s
+TravellingSalesman-100-50-11.xml seed=0: objective=2317.00, duplicates=0, missing=0, valid_cost=2317.0, 0.65s
+TravellingSalesman-100-50-11.xml seed=1: objective=2596.00, duplicates=0, missing=0, valid_cost=2596.0, 0.64s
+TravellingSalesman-100-50-11.xml seed=2: objective=2458.00, duplicates=0, missing=0, valid_cost=2458.0, 0.65s
+TravellingSalesman-100-50-11.xml seed=3: objective=2459.00, duplicates=0, missing=0, valid_cost=2459.0, 0.66s
+TravellingSalesman-100-50-11.xml seed=4: objective=2346.00, duplicates=0, missing=0, valid_cost=2346.0, 0.65s
+TravellingSalesman-100-50-11.xml seed=5: objective=2463.00, duplicates=0, missing=0, valid_cost=2463.0, 0.65s
+TravellingSalesman-100-50-11.xml seed=6: objective=2321.00, duplicates=0, missing=0, valid_cost=2321.0, 0.65s
+TravellingSalesman-100-50-11.xml seed=7: objective=2394.00, duplicates=0, missing=0, valid_cost=2394.0, 0.65s
+TravellingSalesman-100-50-11.xml seed=8: objective=2408.00, duplicates=0, missing=0, valid_cost=2408.0, 0.64s
+TravellingSalesman-100-50-11.xml seed=9: objective=2538.00, duplicates=0, missing=0, valid_cost=2538.0, 0.65s
+TravellingSalesman-100-50-12.xml seed=0: objective=2423.00, duplicates=0, missing=0, valid_cost=2423.0, 0.65s
+TravellingSalesman-100-50-12.xml seed=1: objective=2714.00, duplicates=0, missing=0, valid_cost=2714.0, 0.65s
+TravellingSalesman-100-50-12.xml seed=2: objective=2656.00, duplicates=0, missing=0, valid_cost=2656.0, 0.65s
+TravellingSalesman-100-50-12.xml seed=3: objective=2668.00, duplicates=0, missing=0, valid_cost=2668.0, 0.66s
+TravellingSalesman-100-50-12.xml seed=4: objective=2730.00, duplicates=0, missing=0, valid_cost=2730.0, 0.65s
+TravellingSalesman-100-50-12.xml seed=5: objective=2706.00, duplicates=0, missing=0, valid_cost=2706.0, 0.64s
+TravellingSalesman-100-50-12.xml seed=6: objective=2698.00, duplicates=0, missing=0, valid_cost=2698.0, 0.65s
+TravellingSalesman-100-50-12.xml seed=7: objective=2745.00, duplicates=0, missing=0, valid_cost=2745.0, 0.65s
+TravellingSalesman-100-50-12.xml seed=8: objective=2588.00, duplicates=0, missing=0, valid_cost=2588.0, 0.65s
+TravellingSalesman-100-50-12.xml seed=9: objective=2533.00, duplicates=0, missing=0, valid_cost=2533.0, 0.65s
+TravellingSalesman-100-50-13.xml seed=0: objective=2416.00, duplicates=0, missing=0, valid_cost=2416.0, 0.65s
+TravellingSalesman-100-50-13.xml seed=1: objective=2621.00, duplicates=0, missing=0, valid_cost=2621.0, 0.65s
+TravellingSalesman-100-50-13.xml seed=2: objective=2746.00, duplicates=0, missing=0, valid_cost=2746.0, 0.65s
+TravellingSalesman-100-50-13.xml seed=3: objective=2572.00, duplicates=0, missing=0, valid_cost=2572.0, 0.74s
+TravellingSalesman-100-50-13.xml seed=4: objective=2638.00, duplicates=0, missing=0, valid_cost=2638.0, 0.65s
+TravellingSalesman-100-50-13.xml seed=5: objective=2733.00, duplicates=0, missing=0, valid_cost=2733.0, 0.65s
+TravellingSalesman-100-50-13.xml seed=6: objective=2636.00, duplicates=0, missing=0, valid_cost=2636.0, 0.64s
+TravellingSalesman-100-50-13.xml seed=7: objective=2552.00, duplicates=0, missing=0, valid_cost=2552.0, 0.65s
+TravellingSalesman-100-50-13.xml seed=8: objective=2550.00, duplicates=0, missing=0, valid_cost=2550.0, 0.65s
+TravellingSalesman-100-50-13.xml seed=9: objective=2591.00, duplicates=0, missing=0, valid_cost=2591.0, 0.65s
+TravellingSalesman-100-50-14.xml seed=0: objective=2574.00, duplicates=0, missing=0, valid_cost=2574.0, 0.65s
+TravellingSalesman-100-50-14.xml seed=1: objective=2616.00, duplicates=0, missing=0, valid_cost=2616.0, 0.65s
+TravellingSalesman-100-50-14.xml seed=2: objective=2569.00, duplicates=0, missing=0, valid_cost=2569.0, 0.65s
+TravellingSalesman-100-50-14.xml seed=3: objective=2520.00, duplicates=0, missing=0, valid_cost=2520.0, 0.65s
+TravellingSalesman-100-50-14.xml seed=4: objective=2611.00, duplicates=0, missing=0, valid_cost=2611.0, 0.65s
+TravellingSalesman-100-50-14.xml seed=5: objective=2582.00, duplicates=0, missing=0, valid_cost=2582.0, 0.65s
+TravellingSalesman-100-50-14.xml seed=6: objective=2671.00, duplicates=0, missing=0, valid_cost=2671.0, 0.65s
+TravellingSalesman-100-50-14.xml seed=7: objective=2637.00, duplicates=0, missing=0, valid_cost=2637.0, 0.65s
+TravellingSalesman-100-50-14.xml seed=8: objective=2390.00, duplicates=0, missing=0, valid_cost=2390.0, 0.65s
+TravellingSalesman-100-50-14.xml seed=9: objective=2625.00, duplicates=0, missing=0, valid_cost=2625.0, 0.65s
+TravellingSalesman-100-50-15.xml seed=0: objective=2555.00, duplicates=0, missing=0, valid_cost=2555.0, 0.64s
+TravellingSalesman-100-50-15.xml seed=1: objective=2770.00, duplicates=0, missing=0, valid_cost=2770.0, 0.65s
+TravellingSalesman-100-50-15.xml seed=2: objective=2653.00, duplicates=0, missing=0, valid_cost=2653.0, 0.65s
+TravellingSalesman-100-50-15.xml seed=3: objective=2502.00, duplicates=0, missing=0, valid_cost=2502.0, 0.65s
+TravellingSalesman-100-50-15.xml seed=4: objective=2507.00, duplicates=0, missing=0, valid_cost=2507.0, 0.65s
+TravellingSalesman-100-50-15.xml seed=5: objective=2647.00, duplicates=0, missing=0, valid_cost=2647.0, 0.65s
+TravellingSalesman-100-50-15.xml seed=6: objective=2743.00, duplicates=0, missing=0, valid_cost=2743.0, 0.65s
+TravellingSalesman-100-50-15.xml seed=7: objective=2629.00, duplicates=0, missing=0, valid_cost=2629.0, 0.65s
+TravellingSalesman-100-50-15.xml seed=8: objective=2468.00, duplicates=0, missing=0, valid_cost=2468.0, 0.65s
+TravellingSalesman-100-50-15.xml seed=9: objective=2713.00, duplicates=0, missing=0, valid_cost=2713.0, 0.65s
+TravellingSalesman-100-50-16.xml seed=0: objective=2387.00, duplicates=0, missing=0, valid_cost=2387.0, 0.65s
+TravellingSalesman-100-50-16.xml seed=1: objective=2511.00, duplicates=0, missing=0, valid_cost=2511.0, 0.64s
+TravellingSalesman-100-50-16.xml seed=2: objective=2702.00, duplicates=0, missing=0, valid_cost=2702.0, 0.65s
+TravellingSalesman-100-50-16.xml seed=3: objective=2577.00, duplicates=0, missing=0, valid_cost=2577.0, 0.66s
+TravellingSalesman-100-50-16.xml seed=4: objective=2542.00, duplicates=0, missing=0, valid_cost=2542.0, 0.65s
+TravellingSalesman-100-50-16.xml seed=5: objective=2753.00, duplicates=0, missing=0, valid_cost=2753.0, 0.74s
+TravellingSalesman-100-50-16.xml seed=6: objective=2642.00, duplicates=0, missing=0, valid_cost=2642.0, 0.65s
+TravellingSalesman-100-50-16.xml seed=7: objective=2487.00, duplicates=0, missing=0, valid_cost=2487.0, 0.65s
+TravellingSalesman-100-50-16.xml seed=8: objective=2606.00, duplicates=0, missing=0, valid_cost=2606.0, 0.65s
+TravellingSalesman-100-50-16.xml seed=9: objective=2603.00, duplicates=0, missing=0, valid_cost=2603.0, 0.65s
+TravellingSalesman-100-50-17.xml seed=0: objective=2442.00, duplicates=0, missing=0, valid_cost=2442.0, 0.65s
+TravellingSalesman-100-50-17.xml seed=1: objective=2687.00, duplicates=0, missing=0, valid_cost=2687.0, 0.65s
+TravellingSalesman-100-50-17.xml seed=2: objective=2596.00, duplicates=0, missing=0, valid_cost=2596.0, 0.65s
+TravellingSalesman-100-50-17.xml seed=3: objective=2387.00, duplicates=0, missing=0, valid_cost=2387.0, 0.65s
+TravellingSalesman-100-50-17.xml seed=4: objective=2416.00, duplicates=0, missing=0, valid_cost=2416.0, 0.65s
+TravellingSalesman-100-50-17.xml seed=5: objective=2541.00, duplicates=0, missing=0, valid_cost=2541.0, 0.65s
+TravellingSalesman-100-50-17.xml seed=6: objective=2600.00, duplicates=0, missing=0, valid_cost=2600.0, 0.65s
+TravellingSalesman-100-50-17.xml seed=7: objective=2620.00, duplicates=0, missing=0, valid_cost=2620.0, 0.65s
+TravellingSalesman-100-50-17.xml seed=8: objective=2443.00, duplicates=0, missing=0, valid_cost=2443.0, 0.65s
+TravellingSalesman-100-50-17.xml seed=9: objective=2455.00, duplicates=0, missing=0, valid_cost=2455.0, 0.65s
+TravellingSalesman-100-50-18.xml seed=0: objective=2424.00, duplicates=0, missing=0, valid_cost=2424.0, 0.65s
+TravellingSalesman-100-50-18.xml seed=1: objective=2639.00, duplicates=0, missing=0, valid_cost=2639.0, 0.65s
+TravellingSalesman-100-50-18.xml seed=2: objective=2557.00, duplicates=0, missing=0, valid_cost=2557.0, 0.65s
+TravellingSalesman-100-50-18.xml seed=3: objective=2460.00, duplicates=0, missing=0, valid_cost=2460.0, 0.66s
+TravellingSalesman-100-50-18.xml seed=4: objective=2425.00, duplicates=0, missing=0, valid_cost=2425.0, 0.65s
+TravellingSalesman-100-50-18.xml seed=5: objective=2788.00, duplicates=0, missing=0, valid_cost=2788.0, 0.65s
+TravellingSalesman-100-50-18.xml seed=6: objective=2693.00, duplicates=0, missing=0, valid_cost=2693.0, 0.65s
+TravellingSalesman-100-50-18.xml seed=7: objective=2566.00, duplicates=0, missing=0, valid_cost=2566.0, 0.65s
+TravellingSalesman-100-50-18.xml seed=8: objective=2370.00, duplicates=0, missing=0, valid_cost=2370.0, 0.64s
+TravellingSalesman-100-50-18.xml seed=9: objective=2667.00, duplicates=0, missing=0, valid_cost=2667.0, 0.65s
+TravellingSalesman-100-50-19.xml seed=0: objective=2362.00, duplicates=0, missing=0, valid_cost=2362.0, 0.65s
+TravellingSalesman-100-50-19.xml seed=1: objective=2655.00, duplicates=0, missing=0, valid_cost=2655.0, 0.65s
+TravellingSalesman-100-50-19.xml seed=2: objective=2601.00, duplicates=0, missing=0, valid_cost=2601.0, 0.65s
+TravellingSalesman-100-50-19.xml seed=3: objective=2414.00, duplicates=0, missing=0, valid_cost=2414.0, 0.65s
+TravellingSalesman-100-50-19.xml seed=4: objective=2249.00, duplicates=0, missing=0, valid_cost=2249.0, 0.65s
+TravellingSalesman-100-50-19.xml seed=5: objective=2526.00, duplicates=0, missing=0, valid_cost=2526.0, 0.65s
+TravellingSalesman-100-50-19.xml seed=6: objective=2524.00, duplicates=0, missing=0, valid_cost=2524.0, 0.65s
+TravellingSalesman-100-50-19.xml seed=7: objective=2438.00, duplicates=0, missing=0, valid_cost=2438.0, 0.75s
+TravellingSalesman-100-50-19.xml seed=8: objective=2505.00, duplicates=0, missing=0, valid_cost=2505.0, 0.64s
+TravellingSalesman-100-50-19.xml seed=9: objective=2483.00, duplicates=0, missing=0, valid_cost=2483.0, 0.65s
+{
+  "completed_runs": 200,
+  "selected_feasible_ratio": 1,
+  "found_feasible_ratio": 1.0,
+  "mean_tsp_objective": 2570.47,
+  "mean_tsp_tour_cost": 2570.47,
+  "mean_tsp_duplicate_penalty": 0.0,
+  "mean_tsp_missing_edge_penalty": 0.0,
+  "mean_unsat_count": 0.0,
+  "mean_self_loops": 0,
+  "mean_valid_tour_cost": 2570.47,
+  "mean_best_feasible_tour_cost": 2570.47,
+  "best_feasible_tour_cost": 2210.0,
+  "mean_inference_seconds": 0.6527165639847226,
+  "total_inference_seconds": 130.54331279694452,
+  "evaluated_instances": 20,
+  "completed_instances": 20,
+  "instances_with_feasible_tour": 20,
+  "instance_solved_ratio": 1.0,
+  "mean_best_feasible_cost_per_instance": 2378.5
+}

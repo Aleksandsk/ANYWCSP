@@ -1,0 +1,4 @@
+/local_scratch/ainfanta_otros/ANYWCSP/.venv-anywcsp/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))
+/local_scratch/ainfanta_otros/ANYWCSP/src/csp/csp_data.py:331: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=False):
